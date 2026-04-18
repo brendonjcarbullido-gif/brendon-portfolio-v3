@@ -1,0 +1,24 @@
+node_modules/
+dist/
+public/videos/*.mov
+public/images/videography/
+public/images/videography/
+public/images/photography/
+public/images/video/
+public/images/design/
+# Allow portfolio images
+!public/images/work/
+!public/images/about/
+*.mov
+public/videos/lotto-us-hero.mp4
+public/videos/lotto-us-2.mp4
+public/videos/design-craft-hero.mp4
+public/videos/teeccino-social-2.mp4
+public/videos/joseph-abboud.mp4
+public/videos/teeccino-2.mp4
+public/videos/teeccino-social-1.mp4
+public/videos/design-craft-hero.mp4
+public/videos/teeccino-social-2.mp4
+public/videos/joseph-abboud.mp4
+public/videos/teeccino-2.mp4
+public/videos/teeccino-social-1.mp4
