@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { ease } from '@/constants/animation';
 
-const ease = [0.25, 0.1, 0.25, 1] as const
 
 const STATS = [
   { end: 7, suffix: '+', label: 'Years Experience' },

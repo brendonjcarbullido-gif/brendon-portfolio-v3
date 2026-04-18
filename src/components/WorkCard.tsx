@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Project } from '@/data/projects'
+import { ease } from '@/constants/animation';
 
-const ease = [0.25, 0.1, 0.25, 1] as const
 
 export interface WorkCardProps {
   project: Project

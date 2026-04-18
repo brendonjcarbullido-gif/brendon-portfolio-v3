@@ -4,8 +4,8 @@ import { projects } from '@/data/projects'
 import type { Project } from '@/data/projects'
 import { WorkCard } from '@/components/WorkCard'
 import { WorkModal } from '@/components/WorkModal'
+import { ease } from '@/constants/animation';
 
-const ease = [0.25, 0.1, 0.25, 1] as const
 
 const containerVariants = {
   hidden: {},

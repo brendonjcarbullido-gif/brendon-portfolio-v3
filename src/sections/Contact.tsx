@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react'
 import { motion } from 'framer-motion'
+import { ease } from '@/constants/animation';
 
-const ease = [0.25, 0.1, 0.25, 1] as const
 
 type FormStatus = 'idle' | 'sending' | 'success'
 
