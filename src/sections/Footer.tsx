@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-[color:var(--rule)] bg-cream px-6 py-16 text-ink md:px-10 md:py-20">
+    <footer className="relative border-t border-[color:var(--rule)] bg-cream px-5 py-14 text-ink sm:px-6 sm:py-16 md:px-10 md:py-20">
       <div className="mx-auto max-w-[120rem]">
         <motion.a
           href="mailto:brendonjcarbullido@gmail.com"
@@ -12,10 +12,18 @@ export function Footer() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.9, ease: [0.19, 1, 0.22, 1] }}
         >
-          <span className="block font-serif text-[clamp(3.5rem,12vw,12rem)] font-light italic leading-[0.88] tracking-[-0.03em] text-ink transition-colors duration-500 group-hover:text-accent">
+          {/* Desktop: full email on one line */}
+          <span className="hidden font-serif text-[clamp(3.5rem,11vw,12rem)] font-light italic leading-[0.88] tracking-[-0.03em] text-ink transition-colors duration-500 group-hover:text-accent sm:block">
             brendonjcarbullido
             <span className="text-accent group-hover:text-ink">@</span>
             gmail
+          </span>
+          {/* Mobile: stacked for readability */}
+          <span className="block font-serif text-[clamp(2.5rem,13vw,4rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink transition-colors duration-500 group-hover:text-accent sm:hidden">
+            brendon
+            <br />
+            <span className="text-accent group-hover:text-ink">@</span>
+            carbullido
           </span>
           <span className="mt-4 block font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light">
             Get in touch ↗

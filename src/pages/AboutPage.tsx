@@ -12,7 +12,7 @@ export function AboutPage() {
   return (
     <main className="relative min-h-screen bg-cream text-ink">
       {/* Hero band */}
-      <section className="px-6 pb-16 pt-40 md:px-10 md:pb-24 md:pt-44">
+      <section className="px-5 pb-14 pt-32 sm:px-6 sm:pb-16 sm:pt-40 md:px-10 md:pb-24 md:pt-44">
         <div className="mx-auto max-w-[120rem]">
           <motion.p
             className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"
@@ -45,7 +45,7 @@ export function AboutPage() {
       <About />
 
       {/* Experience timeline */}
-      <section className="bg-cream-2 px-6 py-28 text-ink md:px-10 md:py-36">
+      <section className="bg-cream-2 px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-36">
         <div className="mx-auto max-w-[120rem]">
           <div className="grid gap-10 md:grid-cols-12">
             <motion.p
@@ -103,7 +103,7 @@ export function AboutPage() {
       </section>
 
       {/* Skills + Industries + Education */}
-      <section className="px-6 py-28 text-ink md:px-10 md:py-36">
+      <section className="px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-36">
         <div className="mx-auto grid max-w-[120rem] gap-14 md:grid-cols-12">
           <div className="md:col-span-4">
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">Skills</p>

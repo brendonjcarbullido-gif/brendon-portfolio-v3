@@ -56,7 +56,7 @@ export function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative bg-cream px-6 py-28 text-ink md:px-10 md:py-40"
+      className="relative bg-cream px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40"
     >
       <div className="mx-auto max-w-[120rem]">
         {/* Section label */}
@@ -112,7 +112,7 @@ export function About() {
               transition={{ duration: 0.9, ease, delay: 0.15 }}
             >
               <p>
-                <span className="float-left mr-2 mt-[0.2em] font-serif text-[3.75rem] font-light italic leading-[0.75] text-accent">
+                <span className="float-left mr-2 mt-[0.2em] font-serif text-[2.75rem] font-light italic leading-[0.75] text-accent sm:text-[3.25rem] md:text-[3.75rem]">
                   I
                 </span>
                 &apos;m an Art Director and Creative Director based in Los Angeles with

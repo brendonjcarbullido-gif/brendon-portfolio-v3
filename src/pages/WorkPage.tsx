@@ -7,7 +7,7 @@ export function WorkPage() {
 
   return (
     <main className="relative min-h-screen bg-cream text-ink">
-      <section className="px-6 pb-16 pt-40 md:px-10 md:pb-20 md:pt-44">
+      <section className="px-5 pb-12 pt-32 sm:px-6 sm:pb-16 sm:pt-40 md:px-10 md:pb-20 md:pt-44">
         <div className="mx-auto max-w-[120rem]">
           <motion.p
             className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"

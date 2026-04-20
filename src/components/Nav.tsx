@@ -46,10 +46,12 @@ export function Nav() {
           <NavLink
             to="/"
             end
-            className="flex items-center gap-3 font-serif text-[1.125rem] font-medium tracking-[0.02em] text-ink"
+            aria-label="Brendon Carbullido — Home"
+            className="flex items-center gap-2 font-serif text-[1rem] font-medium tracking-[0.02em] text-ink sm:gap-3 sm:text-[1.125rem]"
           >
             <span className="inline-block h-2 w-2 rounded-full bg-accent" aria-hidden />
-            Brendon Carbullido
+            <span className="hidden sm:inline">Brendon Carbullido</span>
+            <span className="sm:hidden">BC</span>
           </NavLink>
 
           <nav className="hidden md:block" aria-label="Primary">
@@ -83,14 +85,14 @@ export function Nav() {
 
           <button
             type="button"
-            className="md:hidden"
+            className="flex h-11 w-11 items-center justify-center md:hidden"
             aria-expanded={open}
             aria-label="Toggle menu"
             onClick={() => setOpen((o) => !o)}
           >
             <span className="flex h-8 w-8 flex-col items-center justify-center gap-1.5">
-              <span className={`block h-px w-5 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3px] rotate-45' : ''}`} />
-              <span className={`block h-px w-5 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3px] -rotate-45' : ''}`} />
+              <span className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3px] rotate-45' : ''}`} />
+              <span className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3px] -rotate-45' : ''}`} />
             </span>
           </button>
         </div>

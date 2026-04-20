@@ -17,7 +17,7 @@ const CLIENTS = [
 export function Marquee() {
   const doubled = [...CLIENTS, ...CLIENTS, ...CLIENTS]
   return (
-    <section className="relative overflow-hidden border-y border-[color:var(--rule)] bg-cream py-8 md:py-10">
+    <section className="relative overflow-hidden border-y border-[color:var(--rule)] bg-cream py-6 sm:py-8 md:py-10">
       <div
         className="flex whitespace-nowrap will-change-transform"
         style={{ animation: 'mq-left 38s linear infinite' }}

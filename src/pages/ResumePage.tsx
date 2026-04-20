@@ -8,7 +8,7 @@ export function ResumePage() {
 
   return (
     <main className="relative min-h-screen bg-cream text-ink">
-      <section className="px-6 pb-24 pt-40 md:px-10 md:pb-32 md:pt-44">
+      <section className="px-5 pb-20 pt-32 sm:px-6 sm:pb-24 sm:pt-40 md:px-10 md:pb-32 md:pt-44">
         <div className="mx-auto grid max-w-[120rem] gap-10 md:grid-cols-12">
           {/* Left col — identity band */}
           <aside className="md:col-span-4 md:sticky md:top-28 md:self-start">

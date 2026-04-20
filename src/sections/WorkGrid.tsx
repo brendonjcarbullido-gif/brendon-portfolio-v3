@@ -33,7 +33,7 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
   return (
     <section
       id="work-grid"
-      className={`relative bg-cream px-6 text-ink md:px-10 ${omitHeader ? 'pb-28 pt-12' : 'py-28 md:py-40'}`}
+      className={`relative bg-cream px-5 text-ink sm:px-6 md:px-10 ${omitHeader ? 'pb-24 pt-8 sm:pb-28 sm:pt-12' : 'py-24 sm:py-28 md:py-40'}`}
     >
       <div className="mx-auto max-w-[120rem]">
         {!omitHeader && (
