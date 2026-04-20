@@ -1,45 +1,54 @@
 import { motion } from 'framer-motion'
-import { ease } from '@/constants/animation'
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-[rgba(240,235,227,0.1)] bg-ink-deep px-6 py-[clamp(4rem,8vw,8rem)] md:px-16 lg:px-24">
-      <div className="mx-auto flex max-w-[96rem] flex-col gap-16">
+    <footer className="relative border-t border-[color:var(--rule)] bg-cream px-6 py-16 text-ink md:px-10 md:py-20">
+      <div className="mx-auto max-w-[120rem]">
         <motion.a
           href="mailto:brendonjcarbullido@gmail.com"
-          className="group inline-block cursor-pointer self-start"
+          className="group block cursor-pointer"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.9, ease }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.9, ease: [0.19, 1, 0.22, 1] }}
         >
-          <span className="font-serif text-[clamp(3rem,10vw,10rem)] font-light italic leading-[0.9] tracking-[-0.02em] text-cream-ds">
+          <span className="block font-serif text-[clamp(3.5rem,12vw,12rem)] font-light italic leading-[0.88] tracking-[-0.03em] text-ink transition-colors duration-500 group-hover:text-accent">
             brendonjcarbullido
-            <span className="text-gold">@</span>
-            gmail.com
+            <span className="text-accent group-hover:text-ink">@</span>
+            gmail
           </span>
-          <span className="mt-4 block font-mono text-[10px] uppercase tracking-[0.16em] text-muted transition-colors duration-300 group-hover:text-gold">
+          <span className="mt-4 block font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light">
             Get in touch ↗
           </span>
         </motion.a>
 
-        <div className="grid gap-8 border-t border-[rgba(240,235,227,0.1)] pt-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Studio</p>
-            <p className="mt-3 font-serif text-[clamp(1.5rem,2vw,1.75rem)] font-light italic text-cream-ds">
+        <div className="mt-16 grid gap-8 border-t border-ink/15 pt-10 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">Studio</p>
+            <p className="mt-3 font-serif text-[clamp(1.375rem,1.75vw,1.75rem)] font-light italic text-ink">
               Los Angeles, CA
             </p>
           </div>
 
-          <nav className="lg:col-span-5" aria-label="Footer">
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Elsewhere</p>
-            <ul className="mt-3 flex flex-col gap-2 font-mono text-[12px] uppercase tracking-[0.14em]">
+          <nav className="md:col-span-4" aria-label="Footer navigation">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">Index</p>
+            <ul className="mt-3 flex flex-col gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-ink">
+              <li><a className="cursor-pointer transition-colors duration-300 hover:text-accent" href="/work">Work</a></li>
+              <li><a className="cursor-pointer transition-colors duration-300 hover:text-accent" href="/about">About</a></li>
+              <li><a className="cursor-pointer transition-colors duration-300 hover:text-accent" href="/resume">Résumé</a></li>
+              <li><a className="cursor-pointer transition-colors duration-300 hover:text-accent" href="/contact">Contact</a></li>
+            </ul>
+          </nav>
+
+          <div className="md:col-span-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">Elsewhere</p>
+            <ul className="mt-3 flex flex-col gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-ink">
               <li>
                 <a
                   href="https://www.instagram.com/brendon.carbullido"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block cursor-pointer text-cream-ds transition-colors duration-300 hover:text-gold"
+                  className="cursor-pointer transition-colors duration-300 hover:text-accent"
                 >
                   Instagram ↗
                 </a>
@@ -49,20 +58,19 @@ export function Footer() {
                   href="https://www.linkedin.com/in/brendoncarbullido"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block cursor-pointer text-cream-ds transition-colors duration-300 hover:text-gold"
+                  className="cursor-pointer transition-colors duration-300 hover:text-accent"
                 >
                   LinkedIn ↗
                 </a>
               </li>
             </ul>
-          </nav>
-
-          <p className="lg:col-span-3 lg:text-right font-mono text-[10px] uppercase tracking-[0.16em] text-muted self-end">
-            © 2026 Brendon Carbullido
-            <br className="hidden lg:inline" />
-            <span className="lg:hidden"> · </span>Art · Creative · Brand
-          </p>
+          </div>
         </div>
+
+        <p className="mt-10 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">
+          <span>© 2026 Brendon Carbullido</span>
+          <span>Art · Creative · Brand</span>
+        </p>
       </div>
     </footer>
   )

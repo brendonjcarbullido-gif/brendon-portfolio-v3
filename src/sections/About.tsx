@@ -1,164 +1,158 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { ease } from '@/constants/animation'
 
 const STATS = [
-  { end: 7, suffix: '+', label: 'Years Experience' },
+  { end: 7, suffix: '+', label: 'Years' },
   { end: 45, suffix: 'K+', label: 'Followers Built' },
-  { end: 40, suffix: '%', label: 'Engagement Growth' },
+  { end: 40, suffix: '%', label: 'Engagement Lift' },
   { end: 7, suffix: '+', label: 'Agency Clients' },
 ] as const
 
-function StatCounter({
-  end,
-  suffix,
-  label,
-  enabled,
-}: {
-  end: number
-  suffix: string
-  label: string
-  enabled: boolean
-}) {
+function StatCounter({ end, suffix, label, enabled }: { end: number; suffix: string; label: string; enabled: boolean }) {
   const [value, setValue] = useState(0)
 
   useEffect(() => {
     if (!enabled) return
     let raf = 0
     const start = performance.now()
-    const duration = 1500
-
+    const duration = 1800
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration)
       const eased = 1 - (1 - t) ** 3
       setValue(Math.round(end * eased))
       if (t < 1) raf = requestAnimationFrame(tick)
     }
-
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [end, enabled])
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="font-serif text-[clamp(40px,4.5vw,64px)] font-light leading-none tracking-tight text-gold">
+    <div>
+      <p className="font-serif text-[clamp(2.25rem,3.6vw,3.75rem)] font-light leading-none tracking-[-0.02em] text-ink">
         {value}
-        {suffix}
+        <span className="text-accent">{suffix}</span>
       </p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">{label}</p>
+      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">{label}</p>
     </div>
   )
 }
 
 export function About() {
+  const sectionRef = useRef<HTMLElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
-  const statsInView = useInView(statsRef, { once: true, amount: 0.35 })
+  const portraitRef = useRef<HTMLDivElement>(null)
+  const statsInView = useInView(statsRef, { once: true, amount: 0.4 })
+  const prefersReduced = useReducedMotion()
+
+  // Parallax on portrait: slow upward drift while section scrolls
+  const { scrollYProgress } = useScroll({
+    target: portraitRef,
+    offset: ['start end', 'end start'],
+  })
+  const portraitY = useTransform(scrollYProgress, [0, 1], prefersReduced ? ['0%', '0%'] : ['8%', '-8%'])
 
   return (
     <section
+      ref={sectionRef}
       id="about"
-      className="relative bg-ink-deep px-6 py-[clamp(5rem,10vw,10rem)] text-cream-ds md:px-16 lg:px-24"
+      className="relative bg-cream px-6 py-28 text-ink md:px-10 md:py-40"
     >
-      {/* Section head — mono eyebrow + oversized italic serif */}
-      <div className="mx-auto max-w-[96rem]">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <motion.p
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold lg:col-span-3"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.6, ease }}
-          >
-            01 — About
-          </motion.p>
-          <motion.h2
-            className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-cream-ds lg:col-span-9"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease }}
-          >
-            A full creative department.
-            <br />
-            <span className="not-italic">One person.</span>
-          </motion.h2>
-        </div>
+      <div className="mx-auto max-w-[120rem]">
+        {/* Section label */}
+        <motion.p
+          className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease }}
+        >
+          02 — About the studio
+        </motion.p>
 
-        <div className="my-16 h-px w-full bg-[rgba(240,235,227,0.12)]" />
-
-        {/* Portrait + prose — asymmetric 12-col */}
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <motion.figure
-            className="relative lg:col-span-5"
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.9, ease }}
-          >
-            <div className="relative aspect-[3/4] w-full overflow-hidden">
-              <img
+        {/* — Magazine spread: portrait + prose + pull quote */}
+        <div className="mt-10 grid gap-10 md:grid-cols-12 md:gap-x-10">
+          {/* Portrait — stretches across 5 cols */}
+          <div ref={portraitRef} className="md:col-span-5">
+            <div className="relative aspect-[3/4] overflow-hidden bg-cream-2">
+              <motion.img
                 src="/images/about/brendon-portrait.jpg"
-                alt="Brendon Carbullido"
-                className="h-full w-full object-cover transition-transform duration-[1200ms] ease-dialect-out hover:scale-[1.04]"
+                alt="Brendon Carbullido — Art Director"
+                className="absolute inset-[-10%] h-[120%] w-[120%] object-cover"
+                style={{ y: portraitY }}
               />
             </div>
-            <figcaption className="mt-4 flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+            <p className="mt-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light">
               <span>Brendon Carbullido</span>
               <span>Los Angeles, CA</span>
-            </figcaption>
-          </motion.figure>
+            </p>
+          </div>
 
-          <div className="lg:col-span-6 lg:col-start-7 flex flex-col gap-8 self-end">
-            <motion.p
-              className="font-serif text-[clamp(1.375rem,2vw,1.75rem)] font-light leading-[1.45] text-cream-ds"
-              initial={{ opacity: 0, y: 20 }}
+          {/* Prose — 6 cols, offset by 1 */}
+          <div className="flex flex-col gap-10 md:col-span-6 md:col-start-7">
+            <motion.h2
+              className="font-serif text-[clamp(2.5rem,6vw,6rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink"
+              initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8, ease }}
+              transition={{ duration: 0.9, ease }}
             >
-              I&apos;m Brendon Carbullido — an Art Director and Creative Director based in Los Angeles with 7+
-              years building brands that perform. I shoot, direct, edit, and ship. Strategy and execution in
-              the same hand.
-            </motion.p>
+              A full creative
+              <br />
+              department.
+              <br />
+              <span className="not-italic text-ink-light">One person.</span>
+            </motion.h2>
 
-            <motion.p
-              className="max-w-[36rem] font-sans text-[15px] font-light leading-[1.8] text-muted"
-              initial={{ opacity: 0, y: 20 }}
+            <motion.div
+              className="flex max-w-[44ch] flex-col gap-6 font-serif text-[clamp(1.0625rem,1.35vw,1.3rem)] font-light leading-[1.55] text-ink"
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, ease, delay: 0.1 }}
+              transition={{ duration: 0.9, ease, delay: 0.15 }}
             >
-              The discipline of a collegiate athlete shapes how I approach every project. High performance
-              isn&apos;t a phrase — it&apos;s the standard I hold myself to creatively, strategically, and in
-              every client relationship.
-            </motion.p>
+              <p>
+                <span className="float-left mr-2 mt-[0.2em] font-serif text-[3.75rem] font-light italic leading-[0.75] text-accent">
+                  I
+                </span>
+                &apos;m an Art Director and Creative Director based in Los Angeles with
+                seven-plus years building brands that perform. I shoot, direct, edit,
+                and ship — strategy and execution in the same hand.
+              </p>
+              <p>
+                The discipline of a collegiate athlete shapes how I approach every
+                project. High performance isn&apos;t a phrase; it&apos;s the standard I
+                hold myself to creatively, strategically, and in every client
+                relationship.
+              </p>
+              <p>
+                I&apos;ve directed across agency, in-house, and independent contexts —
+                fashion, luxury spirits, CPG, beauty, wellness, jewelry, celebrity.
+                The thread is full creative ownership.
+              </p>
+            </motion.div>
 
-            <motion.p
-              className="max-w-[36rem] font-sans text-[15px] font-light leading-[1.8] text-muted"
-              initial={{ opacity: 0, y: 20 }}
+            {/* Pull quote */}
+            <motion.blockquote
+              className="relative border-l border-ink/20 pl-6 font-serif text-[clamp(1.5rem,2.4vw,2.25rem)] font-light italic leading-[1.25] tracking-[-0.01em] text-ink"
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, ease, delay: 0.2 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.9, ease, delay: 0.2 }}
             >
-              I&apos;ve directed across agency, in-house, and independent contexts — across fashion, luxury
-              spirits, CPG, beauty, health and wellness, jewelry, and celebrity. The thread: full creative
-              ownership.
-            </motion.p>
-
-            <div className="mt-6 h-px w-full bg-[rgba(240,235,227,0.12)]" />
-
-            <div ref={statsRef} className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
-              {STATS.map((s) => (
-                <StatCounter
-                  key={s.label}
-                  end={s.end}
-                  suffix={s.suffix}
-                  label={s.label}
-                  enabled={statsInView}
-                />
-              ))}
-            </div>
+              &ldquo;I don&apos;t guess — I learn before I create.&rdquo;
+            </motion.blockquote>
           </div>
+        </div>
+
+        {/* Stats row — full width, hairline top, generous gap */}
+        <div
+          ref={statsRef}
+          className="mt-20 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-ink/15 pt-14 md:grid-cols-4 md:mt-28"
+        >
+          {STATS.map((s) => (
+            <StatCounter key={s.label} end={s.end} suffix={s.suffix} label={s.label} enabled={statsInView} />
+          ))}
         </div>
       </div>
     </section>

@@ -1,21 +1,17 @@
-import { HeroScene } from '@/three/HeroScene'
+import { HeroMosaic } from '@/sections/HeroMosaic'
 import { Marquee } from '@/sections/Marquee'
-import { WorkGrid } from '@/sections/WorkGrid'
+import { ProjectsRail } from '@/sections/ProjectsRail'
 import { About } from '@/sections/About'
 import { Process } from '@/sections/Process'
 import { Expertise } from '@/sections/Expertise'
 import { Contact } from '@/sections/Contact'
-import { SpiralIntro } from '@/components/SpiralIntro'
 
 export function HomePage() {
   return (
-    <main>
-      <SpiralIntro />
-      <section style={{ cursor: 'none' }}>
-        <HeroScene />
-      </section>
+    <main className="relative">
+      <HeroMosaic />
       <Marquee />
-      <WorkGrid />
+      <ProjectsRail />
       <About />
       <Process />
       <Expertise />

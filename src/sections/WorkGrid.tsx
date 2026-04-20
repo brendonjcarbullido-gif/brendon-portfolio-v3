@@ -8,30 +8,21 @@ import { ease } from '@/constants/animation'
 
 const containerVariants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
+  show: { transition: { staggerChildren: 0.1 } },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 60 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease },
-  },
+  hidden: { opacity: 0, y: 48 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.9, ease } },
 }
 
-/** Dialect-style asymmetric column-span pattern — feature / standard / standard / feature ... */
+/** Editorial column pattern — big / small / small / big ... */
 function colSpanFor(i: number) {
   const pattern = [7, 5, 5, 7, 6, 6, 7, 5]
   return pattern[i % pattern.length]
 }
 
 function topOffsetFor(i: number) {
-  // Staircase the right column down to mimic Dialect's asymmetric vertical rhythm
   const offsets = [0, 20, 0, 16, 8, 24, 0, 12]
   return offsets[i % offsets.length]
 }
@@ -41,42 +32,38 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
 
   return (
     <section
-      id="work"
-      className={
-        omitHeader
-          ? 'relative bg-ink-deep px-6 pb-[clamp(5rem,10vw,10rem)] pt-12 text-cream-ds md:px-16 lg:px-24'
-          : 'relative bg-ink-deep px-6 py-[clamp(5rem,10vw,10rem)] text-cream-ds md:px-16 lg:px-24'
-      }
+      id="work-grid"
+      className={`relative bg-cream px-6 text-ink md:px-10 ${omitHeader ? 'pb-28 pt-12' : 'py-28 md:py-40'}`}
     >
-      <div className="mx-auto max-w-[96rem]">
+      <div className="mx-auto max-w-[120rem]">
         {!omitHeader && (
           <>
-            <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="grid gap-10 md:grid-cols-12">
               <motion.p
-                className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold lg:col-span-3"
+                className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light md:col-span-3"
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.6, ease }}
+                transition={{ duration: 0.7, ease }}
               >
-                00 — Selected Work
+                Index — Selected Work
               </motion.p>
               <motion.h2
-                className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-cream-ds lg:col-span-9"
+                className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.96] tracking-[-0.025em] text-ink md:col-span-9"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.9, ease }}
               >
-                Creative direction.
+                Creative direction<span className="text-accent">.</span>
               </motion.h2>
             </div>
-            <div className="my-16 h-px w-full bg-[rgba(240,235,227,0.12)]" />
+            <div className="my-16 h-px w-full bg-ink/15" />
           </>
         )}
 
         <motion.div
-          className="grid grid-cols-1 gap-x-6 gap-y-24 md:grid-cols-12 md:gap-y-32"
+          className="grid grid-cols-1 gap-x-6 gap-y-20 md:grid-cols-12 md:gap-y-28"
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
@@ -85,7 +72,6 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
           {projects.map((p, i) => {
             const span = colSpanFor(i)
             const offset = topOffsetFor(i)
-            const offsetStyle = offset > 0 ? { marginTop: `${offset * 0.25}rem` } : undefined
             return (
               <motion.div
                 key={p.slug}
@@ -93,7 +79,7 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
                 className="h-full"
                 style={{
                   gridColumn: `span ${span} / span ${span}`,
-                  ...offsetStyle,
+                  marginTop: offset > 0 ? `${offset * 0.25}rem` : undefined,
                 }}
               >
                 <WorkCard project={p} index={i} onClick={() => setSelectedProject(p)} />

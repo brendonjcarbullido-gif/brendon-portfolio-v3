@@ -1,45 +1,44 @@
+import { motion } from 'framer-motion'
 import { WorkGrid } from '@/sections/WorkGrid'
 import { resume } from '@/data/resume'
-import { AmbientWork } from '@/components/ambient/AmbientWork'
-
-const gold = '#c9a96e'
-const cream = '#f5f0e8'
 
 export function WorkPage() {
   const clientLine = resume.clients.join(' · ')
 
   return (
-    <main className="relative" style={{ backgroundColor: '#0a0a0a', color: cream }}>
-      <AmbientWork />
-      <div className="relative z-10 pt-28 md:pt-32">
-        <div className="mx-auto max-w-[1600px] px-4 md:px-[60px]">
-          <h1
-            className="font-serif italic"
-            style={{
-              fontSize: 'clamp(40px, 6vw, 72px)',
-              lineHeight: 1.05,
-              marginBottom: '1rem',
-            }}
+    <main className="relative min-h-screen bg-cream text-ink">
+      <section className="px-6 pb-16 pt-40 md:px-10 md:pb-20 md:pt-44">
+        <div className="mx-auto max-w-[120rem]">
+          <motion.p
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
           >
-            Selected Work
-          </h1>
-          <p
-            className="max-w-[900px] font-sans"
-            style={{
-              fontSize: '0.95rem',
-              lineHeight: 1.7,
-              color: 'rgba(245,240,232,0.55)',
-              marginBottom: '0.5rem',
-            }}
+            Index — Selected Work
+          </motion.p>
+          <motion.h1
+            className="mt-6 font-serif text-[clamp(3rem,9vw,9rem)] font-light italic leading-[0.92] tracking-[-0.03em] text-ink"
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
           >
-            Campaigns, identities, and content systems for {clientLine}.
-          </p>
-          <p className="font-sans uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: gold }}>
-            Full case studies below
-          </p>
+            Campaigns, identities,
+            <br />
+            <span className="not-italic">content systems.</span>
+          </motion.h1>
+          <motion.p
+            className="mt-8 max-w-[48ch] font-serif text-[clamp(1.0625rem,1.35vw,1.3rem)] font-light leading-[1.55] text-ink-light"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.19, 1, 0.22, 1], delay: 0.25 }}
+          >
+            Work across {clientLine}. Full case studies below.
+          </motion.p>
         </div>
-        <WorkGrid omitHeader />
-      </div>
+      </section>
+
+      <WorkGrid omitHeader />
     </main>
   )
 }
