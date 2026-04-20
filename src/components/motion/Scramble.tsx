@@ -10,14 +10,12 @@ const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+·'
 
 export function Scramble({
   text,
-  className = '',
+  className,
   durationMs = 900,
-  as: Tag = 'span',
 }: {
   text: string
   className?: string
   durationMs?: number
-  as?: keyof React.JSX.IntrinsicElements
 }) {
   const prefersReduced = useReducedMotion()
   const ref = useRef<HTMLSpanElement | null>(null)
@@ -75,8 +73,8 @@ export function Scramble({
   }, [text, durationMs, prefersReduced])
 
   return (
-    <Tag ref={ref as React.RefObject<HTMLElement>} className={className} aria-label={text}>
+    <span ref={ref} className={className} aria-label={text}>
       {display}
-    </Tag>
+    </span>
   )
 }
