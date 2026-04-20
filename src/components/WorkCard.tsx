@@ -17,7 +17,10 @@ export function WorkCard({ project, onClick }: WorkCardProps) {
       onClick={onClick}
       className="group relative block w-full cursor-pointer bg-transparent text-left"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#141412]">
+      <div
+        data-spiral-target={project.slug}
+        className="relative aspect-[4/5] w-full overflow-hidden bg-[#141412]"
+      >
         <motion.div
           className="relative h-full w-full"
           initial={false}
