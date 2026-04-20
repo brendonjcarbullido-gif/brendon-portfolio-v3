@@ -33,7 +33,7 @@ export default {
         'eyebrow': ['0.6875rem', { lineHeight: '1.4', letterSpacing: '0.16em' }],
       },
       transitionTimingFunction: {
-        'dialect-out': 'cubic-bezier(0.19, 1, 0.22, 1)',
+        'v3-out': 'cubic-bezier(0.19, 1, 0.22, 1)',
       },
     },
   },
