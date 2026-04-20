@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ScrollProgress } from '@/components/motion/ScrollProgress'
 
 const links = [
   { to: '/work', label: 'Work' },
@@ -34,6 +35,7 @@ export function Nav() {
 
   return (
     <>
+      <ScrollProgress />
       <motion.header
         className={`fixed inset-x-0 top-0 z-40 transition-colors duration-500 ${
           scrolled ? 'bg-cream/85 backdrop-blur-md' : 'bg-transparent'

@@ -155,7 +155,7 @@ function ProjectPanel({
     >
       <motion.div
         className="absolute inset-0"
-        animate={{ scale: active ? 1 : 1.04 }}
+        animate={{ scale: active ? 1 : 1.04, y: active ? -8 : 0 }}
         transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
       >
         {project.mediaType === 'video' && project.video ? (

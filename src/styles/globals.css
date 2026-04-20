@@ -71,3 +71,26 @@ body::before {
 /* Hide scrollbars inside horizontal rails */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* —————— Ken Burns — continuous slow pan+zoom for hero tiles ——————
+   Six variants so tiles breathe asynchronously.
+   Durations 18–26s, transforms stay under 8% so they read as ambience. */
+@keyframes kb-a { 0%,100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); } 50% { transform: scale(1.14) translate3d( 1.5%,  1.5%, 0); } }
+@keyframes kb-b { 0%,100% { transform: scale(1.12) translate3d( 1.5%, -1%, 0); } 50% { transform: scale(1.08) translate3d(-1.5%,  1.5%, 0); } }
+@keyframes kb-c { 0%,100% { transform: scale(1.06) translate3d( 0.5%,  1%, 0); } 50% { transform: scale(1.14) translate3d(-1%, -1.2%, 0); } }
+@keyframes kb-d { 0%,100% { transform: scale(1.10) translate3d(-1%,   1%, 0); } 50% { transform: scale(1.04) translate3d( 2%,  -1%, 0); } }
+@keyframes kb-e { 0%,100% { transform: scale(1.14) translate3d( 1%,  -0.5%, 0); } 50% { transform: scale(1.08) translate3d(-2%,  0.8%, 0); } }
+
+.kb-a > img, .kb-a > video { animation: kb-a 22s ease-in-out infinite; will-change: transform; }
+.kb-b > img, .kb-b > video { animation: kb-b 26s ease-in-out infinite; will-change: transform; }
+.kb-c > img, .kb-c > video { animation: kb-c 20s ease-in-out infinite; will-change: transform; }
+.kb-d > img, .kb-d > video { animation: kb-d 24s ease-in-out infinite; will-change: transform; }
+.kb-e > img, .kb-e > video { animation: kb-e 18s ease-in-out infinite; will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-a > img, .kb-a > video,
+  .kb-b > img, .kb-b > video,
+  .kb-c > img, .kb-c > video,
+  .kb-d > img, .kb-d > video,
+  .kb-e > img, .kb-e > video { animation: none !important; transform: none !important; }
+}

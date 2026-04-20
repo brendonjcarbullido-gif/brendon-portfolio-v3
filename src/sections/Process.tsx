@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ease } from '@/constants/animation'
+import { SectionReveal } from '@/components/motion/SectionReveal'
+import { Scramble } from '@/components/motion/Scramble'
 
 const steps = [
   {
@@ -43,15 +45,11 @@ export function Process() {
         <div className="grid gap-10 md:grid-cols-12">
           {/* — LEFT: sticky section header */}
           <div className="md:col-span-4 md:sticky md:top-24 md:self-start">
-            <motion.p
-              className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.7, ease }}
-            >
-              03 — Method
-            </motion.p>
+            <SectionReveal edge="left">
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light">
+                <Scramble text="03 — METHOD" />
+              </p>
+            </SectionReveal>
             <motion.h2
               className="mt-4 font-serif text-[clamp(2.5rem,5vw,5rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-ink"
               initial={{ opacity: 0, y: 24 }}

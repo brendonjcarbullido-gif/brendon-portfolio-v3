@@ -1,6 +1,8 @@
 import { type FormEvent, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ease } from '@/constants/animation'
+import { SectionReveal } from '@/components/motion/SectionReveal'
+import { Scramble } from '@/components/motion/Scramble'
 
 type FormStatus = 'idle' | 'sending' | 'success'
 
@@ -36,15 +38,11 @@ export function Contact() {
       <div className="mx-auto max-w-[120rem]">
         {/* Eyebrow + mega line */}
         <div className="grid gap-10 md:grid-cols-12">
-          <motion.p
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light md:col-span-4"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.7, ease }}
-          >
-            05 — Contact
-          </motion.p>
+          <SectionReveal edge="left" className="md:col-span-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light">
+              <Scramble text="05 — CONTACT" />
+            </p>
+          </SectionReveal>
           <motion.h2
             className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.95] tracking-[-0.025em] text-ink md:col-span-8"
             initial={{ opacity: 0, y: 32 }}

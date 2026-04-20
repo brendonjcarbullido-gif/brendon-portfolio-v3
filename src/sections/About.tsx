@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { ease } from '@/constants/animation'
+import { SectionReveal } from '@/components/motion/SectionReveal'
+import { Scramble } from '@/components/motion/Scramble'
 
 const STATS = [
   { end: 7, suffix: '+', label: 'Years' },
@@ -60,15 +62,11 @@ export function About() {
     >
       <div className="mx-auto max-w-[120rem]">
         {/* Section label */}
-        <motion.p
-          className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.7, ease }}
-        >
-          02 — About the studio
-        </motion.p>
+        <SectionReveal edge="left">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light">
+            <Scramble text="02 — ABOUT THE STUDIO" />
+          </p>
+        </SectionReveal>
 
         {/* — Magazine spread: portrait + prose + pull quote */}
         <div className="mt-10 grid gap-10 md:grid-cols-12 md:gap-x-10">

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ease } from '@/constants/animation'
+import { SectionReveal } from '@/components/motion/SectionReveal'
+import { Scramble } from '@/components/motion/Scramble'
 
 const cards = [
   {
@@ -60,15 +62,11 @@ export function Expertise() {
     <section id="expertise" className="relative bg-cream px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40">
       <div className="mx-auto max-w-[120rem]">
         <div className="grid gap-8 md:grid-cols-12 md:gap-10">
-          <motion.p
-            className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light md:col-span-4"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.7, ease }}
-          >
-            04 — Capabilities
-          </motion.p>
+          <SectionReveal edge="left" className="md:col-span-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-light">
+              <Scramble text="04 — CAPABILITIES" />
+            </p>
+          </SectionReveal>
           <motion.h2
             className="font-serif text-[clamp(2.25rem,6vw,6rem)] font-light italic leading-[0.96] tracking-[-0.025em] text-ink md:col-span-8"
             initial={{ opacity: 0, y: 24 }}
