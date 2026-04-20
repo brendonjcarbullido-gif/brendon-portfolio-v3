@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { ease } from '@/constants/animation';
-
+import { ease } from '@/constants/animation'
 
 const cards = [
   {
@@ -50,31 +49,57 @@ const cards = [
 
 export function Expertise() {
   return (
-    <section className="bg-ink-deep px-6 py-32 text-cream-ds md:px-16 lg:px-24" id="expertise">
-      <div className="mx-auto max-w-[1200px]">
-        <p className="font-sans text-[9px] font-semibold uppercase tracking-[0.28em] text-gold">Expertise</p>
-        <h2 className="mt-4 font-serif text-[clamp(40px,5vw,72px)] font-bold leading-none text-cream-ds">
-          What I bring.
-        </h2>
+    <section
+      id="expertise"
+      className="relative bg-ink-deep px-6 py-[clamp(5rem,10vw,10rem)] text-cream-ds md:px-16 lg:px-24"
+    >
+      <div className="mx-auto max-w-[96rem]">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <motion.p
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold lg:col-span-3"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, ease }}
+          >
+            03 — Capabilities
+          </motion.p>
+          <motion.h2
+            className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-cream-ds lg:col-span-9"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, ease }}
+          >
+            What I bring.
+          </motion.h2>
+        </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3">
+        <div className="my-16 h-px w-full bg-[rgba(240,235,227,0.12)]" />
+
+        <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
           {cards.map((card, index) => (
             <motion.div
               key={card.title}
-              className={`group flex cursor-pointer cursor-hover flex-col border border-[#1E1E1C] bg-[#111110] p-8 transition-[border-color,background-color] duration-300 hover:border-[rgba(201,168,76,0.25)] hover:bg-[#141412] ${card.wide ? 'col-span-2' : ''}`}
-              initial={{ opacity: 0, y: 40 }}
+              className={`group relative flex min-h-[16rem] cursor-pointer flex-col justify-between border-t border-[rgba(240,235,227,0.12)] p-8 transition-colors duration-300 hover:bg-[#141412] md:[&:nth-child(3n+1)]:border-l-0 md:border-l md:[&:nth-child(3n+2)]:border-l md:[&:nth-child(3n+3)]:border-l ${
+                card.wide ? 'md:col-span-2' : ''
+              }`}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.7, ease, delay: index * 0.05 }}
             >
-              <h3 className="font-serif text-[20px] font-semibold text-cream-ds">{card.title}</h3>
-              <p className="mt-3 flex-1 font-sans text-[12px] font-light leading-[1.8] text-muted">{card.description}</p>
-              <span
-                className="mt-6 inline-block font-sans text-gold transition-transform duration-300 group-hover:translate-x-1"
-                aria-hidden
-              >
-                →
-              </span>
+              <div className="flex items-start justify-between gap-6">
+                <h3 className="font-serif text-[clamp(1.5rem,2.2vw,2rem)] font-light italic leading-tight text-cream-ds">
+                  {card.title}
+                </h3>
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+              </div>
+              <p className="mt-8 max-w-[34rem] font-sans text-[14px] font-light leading-[1.8] text-muted">
+                {card.description}
+              </p>
             </motion.div>
           ))}
         </div>

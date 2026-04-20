@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { ease } from '@/constants/animation';
-
+import { ease } from '@/constants/animation'
 
 const steps = [
   {
@@ -23,26 +22,58 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="bg-[#111110] px-6 py-32 text-cream-ds md:px-16 lg:px-24" id="process">
-      <div className="mx-auto max-w-[1200px]">
-        <p className="font-sans text-[9px] font-semibold uppercase tracking-[0.28em] text-gold">Process</p>
-        <h2 className="mt-4 font-serif text-[clamp(40px,5vw,72px)] font-bold leading-none text-cream-ds">
-          How I work.
-        </h2>
+    <section
+      id="process"
+      className="relative bg-[#111110] px-6 py-[clamp(5rem,10vw,10rem)] text-cream-ds md:px-16 lg:px-24"
+    >
+      <div className="mx-auto max-w-[96rem]">
+        {/* Section head */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <motion.p
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold lg:col-span-3"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, ease }}
+          >
+            02 — Process
+          </motion.p>
+          <motion.h2
+            className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-cream-ds lg:col-span-9"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, ease }}
+          >
+            A slower, more deliberate method.
+          </motion.h2>
+        </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="my-16 h-px w-full bg-[rgba(240,235,227,0.12)]" />
+
+        {/* Editorial list — each step is a row with a large number, title, prose */}
+        <div className="flex flex-col">
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
-              className="border border-[#1E1E1C] bg-ink-deep p-8"
-              initial={{ opacity: 0, y: 40 }}
+              className="group grid gap-6 border-b border-[rgba(240,235,227,0.12)] py-12 lg:grid-cols-12 lg:gap-12 lg:py-16"
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.7, ease, delay: index * 0.1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8, ease, delay: index * 0.08 }}
             >
-              <p className="font-serif text-[64px] font-bold leading-none text-gold opacity-20">{String(index + 1).padStart(2, '0')}</p>
-              <h3 className="mt-4 font-serif text-[22px] font-semibold text-cream-ds">{step.title}</h3>
-              <p className="mt-3 font-sans text-[13px] font-light leading-[1.8] text-muted">{step.body}</p>
+              <span
+                aria-hidden
+                className="font-serif text-[clamp(3rem,5vw,5rem)] font-light italic leading-none text-gold opacity-40 lg:col-span-2"
+              >
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="font-serif text-[clamp(1.75rem,3vw,2.75rem)] font-light italic leading-none text-cream-ds lg:col-span-4">
+                {step.title}
+              </h3>
+              <p className="max-w-[38rem] font-sans text-[15px] font-light leading-[1.8] text-muted lg:col-span-6">
+                {step.body}
+              </p>
             </motion.div>
           ))}
         </div>

@@ -14,43 +14,18 @@ export function Marquee() {
   const doubled = [...CLIENTS, ...CLIENTS]
   return (
     <div
-      style={{
-        overflow: 'hidden',
-        borderTop: '1px solid rgba(26,22,18,0.12)',
-        borderBottom: '1px solid rgba(26,22,18,0.12)',
-        padding: '18px 0',
-        background: '#EDE7D9',
-      }}
+      className="relative overflow-hidden border-y border-[rgba(240,235,227,0.12)] bg-ink-deep py-6"
+      aria-label="Client marquee"
     >
-      <div style={{ display: 'flex', whiteSpace: 'nowrap', animation: 'marquee 28s linear infinite' }}>
+      <div className="flex whitespace-nowrap will-change-transform" style={{ animation: 'marquee 36s linear infinite' }}>
         {doubled.map((name, i) => (
           <span
             key={i}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '32px',
-              padding: '0 32px',
-              fontSize: '0.68rem',
-              fontWeight: 400,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#6B6258',
-              fontFamily: 'DM Sans, sans-serif',
-              flexShrink: 0,
-            }}
+            className="flex flex-shrink-0 items-center gap-10 pr-10 font-serif italic text-cream-ds"
+            style={{ fontSize: 'clamp(1.5rem,3vw,2.5rem)', fontWeight: 300 }}
           >
             {name}
-            <span
-              style={{
-                width: '4px',
-                height: '4px',
-                borderRadius: '50%',
-                background: '#8B6F47',
-                display: 'inline-block',
-                flexShrink: 0,
-              }}
-            />
+            <span className="inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
           </span>
         ))}
       </div>

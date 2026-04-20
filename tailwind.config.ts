@@ -24,6 +24,16 @@ export default {
         serif: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
         bebas: ['"Bebas Neue"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+      },
+      fontSize: {
+        'display-xl': ['clamp(3rem, 9vw, 10rem)', { lineHeight: '0.92', letterSpacing: '-0.025em' }],
+        'display-lg': ['clamp(2.5rem, 7vw, 7rem)', { lineHeight: '0.96', letterSpacing: '-0.02em' }],
+        'display-md': ['clamp(2rem, 5vw, 4.5rem)', { lineHeight: '1.02', letterSpacing: '-0.015em' }],
+        'eyebrow': ['0.6875rem', { lineHeight: '1.4', letterSpacing: '0.16em' }],
+      },
+      transitionTimingFunction: {
+        'dialect-out': 'cubic-bezier(0.19, 1, 0.22, 1)',
       },
     },
   },
