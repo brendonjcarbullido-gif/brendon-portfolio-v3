@@ -5,10 +5,12 @@ import { About } from '@/sections/About'
 import { Process } from '@/sections/Process'
 import { Expertise } from '@/sections/Expertise'
 import { Contact } from '@/sections/Contact'
+import { SpiralIntro } from '@/components/SpiralIntro'
 
 export function HomePage() {
   return (
     <main>
+      <SpiralIntro />
       <section style={{ cursor: 'none' }}>
         <HeroScene />
       </section>
