@@ -74,9 +74,17 @@ export function HeroMosaic() {
           </motion.p>
 
           <h1 className="font-serif leading-[0.88] tracking-[-0.035em] text-ink">
-            <MaskedLine text="Brendon" delay={0.2} />
-            <br />
-            <MaskedLine text="Carbullido." italic delay={0.42} />
+            <MaskedLine
+              text="Brendon"
+              delay={0.2}
+              sizeClass="text-[clamp(2.75rem,13vw,11rem)]"
+            />
+            <MaskedLine
+              text="Carbullido."
+              italic
+              delay={0.42}
+              sizeClass="text-[clamp(1.9rem,8.5vw,7.25rem)]"
+            />
           </h1>
 
           <motion.div
@@ -120,6 +128,7 @@ export function HeroMosaic() {
               return (
                 <motion.figure
                   key={tile.slug}
+                  data-cursor="View"
                   className={`relative overflow-hidden bg-cream-2 ${tile.className} ${tile.kb}`}
                   initial={{ opacity: 0, y: 48, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -146,6 +155,7 @@ export function HeroMosaic() {
               return (
                 <motion.figure
                   key={tile.slug}
+                  data-cursor="View"
                   className={`relative aspect-[4/5] overflow-hidden bg-cream-2 ${tile.kb}`}
                   initial={{ opacity: 0, y: 32, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -210,16 +220,26 @@ function TileMedia({ project, eager }: { project: (typeof projects)[number]; eag
   return null
 }
 
-function MaskedLine({ text, italic, delay = 0 }: { text: string; italic?: boolean; delay?: number }) {
+function MaskedLine({
+  text,
+  italic,
+  delay = 0,
+  sizeClass = 'text-[clamp(2.75rem,13vw,11rem)]',
+}: {
+  text: string
+  italic?: boolean
+  delay?: number
+  sizeClass?: string
+}) {
   const chars = splitToChars(text)
   return (
     <span
-      className={`inline-block overflow-hidden align-top text-[clamp(3.25rem,14vw,11rem)] ${
+      className={`block overflow-hidden align-top whitespace-nowrap ${sizeClass} ${
         italic ? 'italic font-light' : 'font-light'
       }`}
       aria-label={text}
     >
-      <span className="inline-flex flex-wrap" aria-hidden>
+      <span className="inline-flex flex-nowrap whitespace-nowrap" aria-hidden>
         {chars.map(({ ch, i }) => (
           <motion.span
             key={i}

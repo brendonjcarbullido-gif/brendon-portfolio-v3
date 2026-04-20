@@ -43,6 +43,36 @@ const CONFIG = {
   desktop: { panelVw: 62, gap: 32, leadPadVw: 18, trailPadVw: 20 },
 } as const
 
+type RailCfg = (typeof CONFIG)[keyof typeof CONFIG]
+
+/**
+ * useTravelPx — resolves total horizontal travel in pixels given the
+ * current viewport width. Recomputes on resize. Keeping travel in pixels
+ * lets useTransform interpolate cleanly (framer-motion can't reliably
+ * interpolate between a bare `0vw` and a mixed-unit calc() string).
+ */
+function useTravelPx(panelCount: number, cfg: RailCfg) {
+  const [travel, setTravel] = useState(() => {
+    if (typeof window === 'undefined') return 0
+    return compute(panelCount, cfg, window.innerWidth)
+  })
+  useEffect(() => {
+    const update = () => setTravel(compute(panelCount, cfg, window.innerWidth))
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [panelCount, cfg])
+  return travel
+}
+
+function compute(panelCount: number, cfg: RailCfg, vw: number) {
+  const vwPx = vw / 100
+  const panels = (panelCount - 1) * cfg.panelVw * vwPx
+  const gaps = (panelCount - 1) * cfg.gap
+  const leadPad = cfg.leadPadVw * vwPx
+  return panels + gaps - leadPad
+}
+
 export function ProjectsRail() {
   const sectionRef = useRef<HTMLElement>(null)
   const prefersReduced = useReducedMotion()
@@ -56,10 +86,8 @@ export function ProjectsRail() {
   })
 
   const panelCount = projects.length
-  const travel = prefersReduced
-    ? '0vw'
-    : `calc(-${(panelCount - 1) * cfg.panelVw}vw - ${(panelCount - 1) * cfg.gap}px + ${cfg.leadPadVw}vw)`
-  const x = useTransform(scrollYProgress, [0, 1], ['0vw', travel])
+  const travelPx = useTravelPx(panelCount, cfg)
+  const x = useTransform(scrollYProgress, [0, 1], [0, prefersReduced ? 0 : -travelPx])
   const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
@@ -150,6 +178,7 @@ function ProjectPanel({
   return (
     <Link
       to={`/work/${project.slug}`}
+      data-cursor="View"
       className="group relative block flex-shrink-0 overflow-hidden bg-cream-2"
       style={{ width: `${panelVw}vw`, height: panelHeight }}
     >

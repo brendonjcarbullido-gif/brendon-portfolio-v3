@@ -72,6 +72,12 @@ body::before {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* When the custom Cursor component is active it sets html { cursor: none }.
+   Keep the native text caret on editable fields so typing still feels right. */
+input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+textarea,
+[contenteditable="true"] { cursor: text; }
+
 /* —————— Ken Burns — continuous slow pan+zoom for hero tiles ——————
    Six variants so tiles breathe asynchronously.
    Durations 18–26s, transforms stay under 8% so they read as ambience. */

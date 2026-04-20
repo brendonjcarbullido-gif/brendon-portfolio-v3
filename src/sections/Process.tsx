@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ease } from '@/constants/animation'
 import { SectionReveal } from '@/components/motion/SectionReveal'
 import { Scramble } from '@/components/motion/Scramble'
+import { SplitReveal } from '@/components/motion/SplitReveal'
 
 const steps = [
   {
@@ -50,19 +51,17 @@ export function Process() {
                 <Scramble text="03 — METHOD" />
               </p>
             </SectionReveal>
-            <motion.h2
+            <SplitReveal
+              as="h2"
               className="mt-4 font-serif text-[clamp(2.5rem,5vw,5rem)] font-light italic leading-[0.96] tracking-[-0.02em] text-ink"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease }}
+              stagger={0.1}
             >
-              A slower,
-              <br />
-              deliberate
-              <br />
-              <span className="not-italic">method.</span>
-            </motion.h2>
+              {[
+                <span key="l1">A slower,</span>,
+                <span key="l2">deliberate</span>,
+                <span key="l3" className="not-italic">method.</span>,
+              ]}
+            </SplitReveal>
           </div>
 
           {/* — RIGHT: rail with progress bar and numbered steps */}

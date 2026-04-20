@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { ease } from '@/constants/animation'
 import { SectionReveal } from '@/components/motion/SectionReveal'
 import { Scramble } from '@/components/motion/Scramble'
+import { Magnetic } from '@/components/motion/Magnetic'
+import { SplitReveal } from '@/components/motion/SplitReveal'
 
 type FormStatus = 'idle' | 'sending' | 'success'
 
@@ -43,17 +45,16 @@ export function Contact() {
               <Scramble text="05 — CONTACT" />
             </p>
           </SectionReveal>
-          <motion.h2
+          <SplitReveal
+            as="h2"
             className="font-serif text-[clamp(2.5rem,7vw,7rem)] font-light italic leading-[0.95] tracking-[-0.025em] text-ink md:col-span-8"
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease }}
+            stagger={0.1}
           >
-            Let&apos;s build
-            <br />
-            <span className="not-italic">something sharp.</span>
-          </motion.h2>
+            {[
+              <span key="l1">Let&apos;s build</span>,
+              <span key="l2" className="not-italic">something sharp.</span>,
+            ]}
+          </SplitReveal>
         </div>
 
         <div className="mt-16 grid gap-14 md:mt-24 md:grid-cols-12 md:gap-20">
@@ -119,21 +120,24 @@ export function Contact() {
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={status === 'sending'}
-                    className="group mt-6 inline-flex w-fit cursor-pointer items-center gap-3 border border-ink bg-ink px-8 py-4 font-mono text-[11px] uppercase tracking-[0.16em] text-cream transition-colors duration-500 hover:bg-cream hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {status === 'sending' ? 'Sending…' : 'Send message'}
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-                      <path
-                        d="M1 13L13 1M13 1H4M13 1V10"
-                        stroke="currentColor"
-                        strokeWidth="1"
-                        className="transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:-translate-y-[2px] group-hover:translate-x-[2px]"
-                      />
-                    </svg>
-                  </button>
+                  <Magnetic strength={0.35} padding={80}>
+                    <button
+                      type="submit"
+                      data-cursor="Send"
+                      disabled={status === 'sending'}
+                      className="group mt-6 inline-flex w-fit cursor-pointer items-center gap-3 border border-ink bg-ink px-8 py-4 font-mono text-[11px] uppercase tracking-[0.16em] text-cream transition-colors duration-500 hover:bg-cream hover:text-ink disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {status === 'sending' ? 'Sending…' : 'Send message'}
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
+                        <path
+                          d="M1 13L13 1M13 1H4M13 1V10"
+                          stroke="currentColor"
+                          strokeWidth="1"
+                          className="transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:-translate-y-[2px] group-hover:translate-x-[2px]"
+                        />
+                      </svg>
+                    </button>
+                  </Magnetic>
                 </form>
               )}
             </div>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ease } from '@/constants/animation'
 import { SectionReveal } from '@/components/motion/SectionReveal'
 import { Scramble } from '@/components/motion/Scramble'
+import { SplitReveal } from '@/components/motion/SplitReveal'
 
 const cards = [
   {
@@ -67,15 +68,14 @@ export function Expertise() {
               <Scramble text="04 — CAPABILITIES" />
             </p>
           </SectionReveal>
-          <motion.h2
+          <SplitReveal
+            as="h2"
             className="font-serif text-[clamp(2.25rem,6vw,6rem)] font-light italic leading-[0.96] tracking-[-0.025em] text-ink md:col-span-8"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease }}
           >
-            What I bring<span className="text-accent">.</span>
-          </motion.h2>
+            {[
+              <span key="l1">What I bring<span className="text-accent">.</span></span>,
+            ]}
+          </SplitReveal>
         </div>
 
         <div className="mt-12 border-t border-ink/15 sm:mt-14 md:mt-16">

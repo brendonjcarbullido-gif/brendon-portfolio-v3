@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion'
+import { Magnetic } from '@/components/motion/Magnetic'
 
 export function Footer() {
   return (
     <footer className="relative border-t border-[color:var(--rule)] bg-cream px-5 py-14 text-ink sm:px-6 sm:py-16 md:px-10 md:py-20">
       <div className="mx-auto max-w-[120rem]">
+        <Magnetic strength={0.12} padding={120} className="block">
         <motion.a
           href="mailto:brendonjcarbullido@gmail.com"
+          data-cursor="Email"
           className="group block cursor-pointer"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -29,6 +32,7 @@ export function Footer() {
             Get in touch ↗
           </span>
         </motion.a>
+        </Magnetic>
 
         <div className="mt-16 grid gap-8 border-t border-ink/15 pt-10 md:grid-cols-12">
           <div className="md:col-span-4">

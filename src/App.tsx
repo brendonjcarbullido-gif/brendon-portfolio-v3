@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Nav } from '@/components/Nav'
 import { Footer } from '@/sections/Footer'
 import { ScrollToTop } from '@/components/ScrollToTop'
-import { PageTransition } from '@/components/PageTransition'
+import { Cursor } from '@/components/motion/Cursor'
+import { IntroLoader } from '@/components/motion/IntroLoader'
+import { RouteCurtain } from '@/components/motion/RouteCurtain'
 import { HomePage } from '@/pages/HomePage'
 import { WorkPage } from '@/pages/WorkPage'
 import { AboutPage } from '@/pages/AboutPage'
@@ -12,30 +13,23 @@ import { ResumePage } from '@/pages/ResumePage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { CaseStudyPage } from '@/pages/CaseStudyPage'
 
-function AppRoutes() {
-  const location = useLocation()
-
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
-        <Route path="/work" element={<PageTransition><WorkPage /></PageTransition>} />
-        <Route path="/work/:slug" element={<PageTransition><CaseStudyPage /></PageTransition>} />
-        <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
-        <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-        <Route path="/resume" element={<PageTransition><ResumePage /></PageTransition>} />
-        <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
-      </Routes>
-    </AnimatePresence>
-  )
-}
-
 export default function App() {
   return (
     <BrowserRouter>
+      <IntroLoader />
+      <RouteCurtain />
+      <Cursor />
       <ScrollToTop />
       <Nav />
-      <AppRoutes />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/work" element={<WorkPage />} />
+        <Route path="/work/:slug" element={<CaseStudyPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/resume" element={<ResumePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
       <Footer />
     </BrowserRouter>
   )

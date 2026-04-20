@@ -3,6 +3,7 @@ import { motion, useInView, useScroll, useTransform, useReducedMotion } from 'fr
 import { ease } from '@/constants/animation'
 import { SectionReveal } from '@/components/motion/SectionReveal'
 import { Scramble } from '@/components/motion/Scramble'
+import { SplitReveal } from '@/components/motion/SplitReveal'
 
 const STATS = [
   { end: 7, suffix: '+', label: 'Years' },
@@ -88,19 +89,17 @@ export function About() {
 
           {/* Prose — 6 cols, offset by 1 */}
           <div className="flex flex-col gap-10 md:col-span-6 md:col-start-7">
-            <motion.h2
+            <SplitReveal
+              as="h2"
               className="font-serif text-[clamp(2.5rem,6vw,6rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink"
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease }}
+              stagger={0.1}
             >
-              A full creative
-              <br />
-              department.
-              <br />
-              <span className="not-italic text-ink-light">One person.</span>
-            </motion.h2>
+              {[
+                <span key="l1">A full creative</span>,
+                <span key="l2">department.</span>,
+                <span key="l3" className="not-italic text-ink-light">One person.</span>,
+              ]}
+            </SplitReveal>
 
             <motion.div
               className="flex max-w-[44ch] flex-col gap-6 font-serif text-[clamp(1.0625rem,1.35vw,1.3rem)] font-light leading-[1.55] text-ink"
