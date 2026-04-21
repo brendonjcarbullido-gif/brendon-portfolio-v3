@@ -38,6 +38,7 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
               muted
               loop
               playsInline
+              poster={project.image}
               className="block h-full w-full object-cover"
             />
           ) : project.image ? (

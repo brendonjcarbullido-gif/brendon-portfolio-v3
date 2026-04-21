@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { useMediaPreload } from '@/hooks/useMediaPreload'
+import { PRELOAD_ASSETS, getPageAssets } from '@/lib/preloadAssets'
 
 const SESSION_KEY = 'v3-intro-seen'
+const MIN_DISPLAY_MS = 1300  // always show for at least this long
+const MAX_WAIT_MS = 9000     // never block longer than this
 
 /**
  * IntroLoader — first-visit-only editorial loader.
- *  • Full-viewport ink curtain with centered italic wordmark and
- *    00 → 100% counter in JetBrains Mono.
- *  • Lifts via two stacked panels splitting vertically, v3-out easing.
+ *  • Preloads all hero/rail media during the curtain so nothing pops after lift.
+ *  • Counter reflects real load progress (0 → 100) with smooth easing.
+ *  • Lifts via two stacked panels splitting vertically once assets are ready.
  *  • Sets sessionStorage so re-renders / route changes don't re-trigger.
  *  • Skipped under reduced-motion.
  */
@@ -20,6 +24,18 @@ export function IntroLoader() {
   const [pct, setPct] = useState(0)
   const [lifting, setLifting] = useState(false)
 
+  // Combine global preload with any page-specific assets (e.g. case study gallery on direct link)
+  const assets = done
+    ? []
+    : [...PRELOAD_ASSETS, ...getPageAssets(window.location.pathname)]
+  const { progress } = useMediaPreload(assets)
+
+  // Keep a ref so the RAF loop always reads the latest value without re-mounting
+  const progressRef = useRef(0)
+  useEffect(() => {
+    progressRef.current = progress
+  }, [progress])
+
   useEffect(() => {
     if (done) return
     if (prefersReduced) {
@@ -27,26 +43,40 @@ export function IntroLoader() {
       setDone(true)
       return
     }
+
     document.body.style.overflow = 'hidden'
 
     const start = performance.now()
-    const duration = 1600
+    let displayPct = 0
     let raf = 0
+    let lifted = false
+
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration)
-      const eased = 1 - Math.pow(1 - t, 3)
-      setPct(Math.round(eased * 100))
-      if (t < 1) raf = requestAnimationFrame(tick)
-      else {
+      const elapsed = now - start
+      // Force 100% after max wait so a slow connection never blocks forever
+      const realTarget = elapsed >= MAX_WAIT_MS ? 100 : progressRef.current * 100
+
+      // Ease displayPct toward realTarget — minimum step prevents it from stalling
+      const diff = realTarget - displayPct
+      const step = Math.max(0.18, diff * 0.055)
+      displayPct = Math.min(realTarget, displayPct + step)
+
+      setPct(Math.round(displayPct))
+
+      if (displayPct >= 99.5 && elapsed >= MIN_DISPLAY_MS && !lifted) {
+        lifted = true
         setLifting(true)
-        // Let the curtain animation play before unmount
         setTimeout(() => {
           sessionStorage.setItem(SESSION_KEY, '1')
           setDone(true)
           document.body.style.overflow = ''
         }, 1100)
+        return
       }
+
+      raf = requestAnimationFrame(tick)
     }
+
     raf = requestAnimationFrame(tick)
     return () => {
       cancelAnimationFrame(raf)
@@ -101,8 +131,8 @@ export function IntroLoader() {
               <motion.div
                 className="h-px flex-1 origin-left bg-cream/30"
                 initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 1.6, ease: [0.19, 1, 0.22, 1] }}
+                animate={{ scaleX: pct / 100 }}
+                transition={{ duration: 0.1, ease: 'linear' }}
                 style={{ transformOrigin: 'left' }}
               />
               <span className="min-w-[3ch] font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-cream/80">

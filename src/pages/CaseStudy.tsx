@@ -119,7 +119,7 @@ export function CaseStudy() {
                 muted
                 loop
                 playsInline
-                poster={project.image}
+                poster={project.image ?? `/images/work/${project.slug}.jpg`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
@@ -339,6 +339,7 @@ export function CaseStudy() {
                       muted
                       loop
                       playsInline
+                      poster={project.image ?? `/images/work/${project.slug}.jpg`}
                       style={{
                         width: '100%',
                         height: '100%',

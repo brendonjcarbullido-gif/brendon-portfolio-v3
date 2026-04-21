@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { preloadAssets } from '@/hooks/useMediaPreload'
+import { getPageAssets } from '@/lib/preloadAssets'
 
 const ease = [0.77, 0, 0.175, 1] as const
 
@@ -12,17 +14,16 @@ const ROUTE_LABEL: Record<string, string> = {
   '/resume': 'Résumé',
 }
 
+const MIN_COVER_MS = 650  // time for cover animation to complete before revealing
+const MAX_WAIT_MS = 7000  // never hold longer than this
+
 /**
- * RouteCurtain — standalone ink wipe that runs on every route change.
- * Lives at the app root, outside of <Routes>, so it can't interfere
- * with sticky/scroll-linked sections inside a page.
+ * RouteCurtain — ink wipe on every route change that also preloads the
+ * destination page's media before lifting, so nothing pops after reveal.
  *
- *  1. pathname changes → curtain drops in from above (cover).
- *  2. brief pause with the route label stamped in serif italic.
- *  3. curtain lifts off the top, revealing the new page.
- *
- * Skipped on very first mount (IntroLoader handles that) and under
- * reduced-motion.
+ *  1. pathname changes → curtain drops in (cover).
+ *  2. preloadAssets(destination) races against MAX_WAIT_MS timeout.
+ *  3. once both MIN_COVER elapsed AND assets ready → curtain lifts.
  */
 export function RouteCurtain() {
   const prefersReduced = useReducedMotion()
@@ -43,11 +44,30 @@ export function RouteCurtain() {
         (pathname.startsWith('/work/') ? 'Case Study' : 'Brendon'),
     )
     setPhase('covering')
-    const t1 = setTimeout(() => setPhase('uncovering'), 650)
-    const t2 = setTimeout(() => setPhase('idle'), 650 + 900)
+
+    const assets = getPageAssets(pathname)
+    const coverStart = Date.now()
+    let cancelled = false
+
+    Promise.race([
+      preloadAssets(assets),
+      new Promise<void>((r) => setTimeout(r, MAX_WAIT_MS)),
+    ]).then(() => {
+      if (cancelled) return
+      const elapsed = Date.now() - coverStart
+      const remaining = Math.max(0, MIN_COVER_MS - elapsed)
+      setTimeout(() => {
+        if (cancelled) return
+        setPhase('uncovering')
+        setTimeout(() => {
+          if (cancelled) return
+          setPhase('idle')
+        }, 900)
+      }, remaining)
+    })
+
     return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
+      cancelled = true
     }
   }, [pathname, prefersReduced])
 

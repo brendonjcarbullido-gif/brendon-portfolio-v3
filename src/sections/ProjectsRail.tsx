@@ -194,6 +194,7 @@ function ProjectPanel({
             muted
             loop
             playsInline
+            poster={project.image}
             className="h-full w-full object-cover"
           />
         ) : project.image ? (

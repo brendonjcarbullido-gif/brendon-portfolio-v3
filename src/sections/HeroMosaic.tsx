@@ -203,6 +203,7 @@ function TileMedia({ project, eager }: { project: (typeof projects)[number]; eag
         muted
         loop
         playsInline
+        poster={project.image}
         className="absolute inset-0 h-full w-full object-cover"
       />
     )
