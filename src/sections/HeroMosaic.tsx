@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { projects } from '@/data/projects'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
@@ -22,6 +22,8 @@ const TILE_SPECS = [
 ] as const
 
 const ROLES = ['Art Director', 'Creative Director', 'Brand Strategist'] as const
+
+type HeroTile = (typeof TILE_SPECS)[number] & { project: (typeof projects)[number] }
 
 function splitToChars(text: string) {
   return text.split('').map((ch, i) => ({ ch: ch === ' ' ? '\u00A0' : ch, i }))
@@ -50,10 +52,28 @@ export function HeroMosaic() {
   const desktopY = [dy0, dy1, dy2, dy3, dy4]
   const mobileY = [my0, my1, my2, my3]
 
-  const heroTiles = TILE_SPECS.map((spec) => {
+  const heroTiles: HeroTile[] = TILE_SPECS.map((spec) => {
     const p = projects.find((pr) => pr.slug === spec.slug) ?? projects[0]
     return { ...spec, project: p }
   })
+
+  const [activeTile, setActiveTile] = useState<HeroTile | null>(null)
+
+  useEffect(() => {
+    if (!activeTile) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveTile(null)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [activeTile])
+
+  useEffect(() => {
+    document.body.style.overflow = activeTile ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [activeTile])
 
   return (
     <section
@@ -128,7 +148,7 @@ export function HeroMosaic() {
               return (
                 <motion.figure
                   key={tile.slug}
-                  data-cursor="View"
+                  data-cursor={activeTile ? undefined : 'View'}
                   className={`relative overflow-hidden bg-cream-2 ${tile.className} ${tile.kb}`}
                   initial={{ opacity: 0, y: 48, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -137,7 +157,8 @@ export function HeroMosaic() {
                     ease: [0.19, 1, 0.22, 1],
                     delay: 0.5 + i * 0.14,
                   }}
-                  style={{ y: prefersReduced ? 0 : desktopY[i] }}
+                  style={{ cursor: 'pointer', y: prefersReduced ? 0 : desktopY[i] }}
+                  onClick={() => setActiveTile(tile)}
                 >
                   <TileMedia project={project} eager={i === 0} />
                   <figcaption className="absolute bottom-2 left-2 font-mono text-[9px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
@@ -155,7 +176,7 @@ export function HeroMosaic() {
               return (
                 <motion.figure
                   key={tile.slug}
-                  data-cursor="View"
+                  data-cursor={activeTile ? undefined : 'View'}
                   className={`relative aspect-[4/5] overflow-hidden bg-cream-2 ${tile.kb}`}
                   initial={{ opacity: 0, y: 32, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -164,7 +185,8 @@ export function HeroMosaic() {
                     ease: [0.19, 1, 0.22, 1],
                     delay: 0.5 + i * 0.1,
                   }}
-                  style={{ y: prefersReduced ? 0 : mobileY[i] }}
+                  style={{ cursor: 'pointer', y: prefersReduced ? 0 : mobileY[i] }}
+                  onClick={() => setActiveTile(tile)}
                 >
                   <TileMedia project={project} eager={i === 0} />
                   <figcaption className="absolute bottom-1.5 left-1.5 font-mono text-[8px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
@@ -176,6 +198,163 @@ export function HeroMosaic() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activeTile && (
+          <motion.div
+            key="lightbox"
+            className="fixed inset-0 z-[70] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+            onClick={() => setActiveTile(null)}
+          >
+            <motion.div
+              className="absolute inset-0 bg-ink"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.92 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+            />
+
+            <motion.div
+              className="relative z-10"
+              initial={{ scale: 0.88, opacity: 0, y: 32 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 16 }}
+              transition={{ duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: 'min(90vw, 1100px)',
+                maxHeight: '85vh',
+                borderRadius: '2px',
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'flex-end',
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  width: 'fit-content',
+                  margin: '0 auto',
+                  maxWidth: '100%',
+                }}
+              >
+                {activeTile.project.mediaType === 'video' && activeTile.project.video ? (
+                  <video
+                    src={activeTile.project.video}
+                    poster={activeTile.project.image}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '82vh',
+                      objectFit: 'contain',
+                      display: 'block',
+                      borderRadius: '2px',
+                    }}
+                  />
+                ) : activeTile.project.image ? (
+                  <img
+                    src={activeTile.project.image}
+                    alt={activeTile.project.client}
+                    decoding="async"
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '82vh',
+                      objectFit: 'contain',
+                      display: 'block',
+                      borderRadius: '2px',
+                    }}
+                  />
+                ) : null}
+
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '1.5rem',
+                    background: 'linear-gradient(to top, rgba(10,10,10,0.75) 0%, transparent 100%)',
+                    borderRadius: '0 0 2px 2px',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: 'DM Mono, monospace',
+                        fontSize: '0.6rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.22em',
+                        color: 'rgba(245,240,232,0.5)',
+                        marginBottom: '0.3rem',
+                      }}
+                    >
+                      {activeTile.project.category} · {activeTile.project.year}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'Cormorant Garamond, Georgia, serif',
+                        fontStyle: 'italic',
+                        fontSize: 'clamp(1.1rem,2.2vw,1.8rem)',
+                        fontWeight: 300,
+                        color: '#f5f0e8',
+                        lineHeight: 1,
+                      }}
+                    >
+                      {activeTile.project.title}
+                    </p>
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: 'DM Mono, monospace',
+                      fontSize: '0.6rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.22em',
+                      color: 'rgba(245,240,232,0.35)',
+                    }}
+                  >
+                    {activeTile.project.client}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.button
+              type="button"
+              className="absolute right-6 top-6 z-20 flex h-10 w-10 items-center justify-center"
+              onClick={() => setActiveTile(null)}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              aria-label="Close"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-cream/60 transition-colors duration-200 hover:text-cream">
+                Close
+              </span>
+            </motion.button>
+
+            <motion.p
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-[0.2em] text-cream/30"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              Click anywhere to close
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink-light md:flex"
