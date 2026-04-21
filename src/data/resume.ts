@@ -103,9 +103,10 @@ export const resume = {
     'Joseph Abboud',
     'Lotto US',
     'Teeccino Caffé',
-    'Kloo Coffee',
+    'SWAU',
     'Casa Amour Tequila',
     'Kandeyce Jorden',
+    'Isaac Mizrahi',
   ],
 } as const
 

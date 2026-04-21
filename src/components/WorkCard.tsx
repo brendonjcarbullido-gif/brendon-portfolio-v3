@@ -7,6 +7,7 @@ export interface WorkCardProps {
   project: Project
   onClick?: () => void
   index?: number
+  featured?: boolean
   /** Use a link (to case study) instead of a button that opens a modal. */
   asLink?: boolean
 }
@@ -53,6 +54,36 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
           {project.client}
         </span>
       </div>
+
+      {project.caseStudy.images.length > 0 && (
+        <div className="mt-1 hidden grid-cols-2 gap-1 sm:grid">
+          {project.caseStudy.images.map((src, i) => {
+            const isVid = src.endsWith('.mp4') || src.endsWith('.mov') || src.endsWith('.MOV')
+            return (
+              <div key={`${src}-${i}`} className="relative aspect-[3/2] overflow-hidden bg-cream-2">
+                {isVid ? (
+                  <video
+                    src={src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       <div className="mt-5 flex items-baseline justify-between gap-6">
         <h3 className="font-serif text-[clamp(1.25rem,2.2vw,2rem)] font-light italic leading-tight text-ink transition-colors duration-500 group-hover:text-accent">

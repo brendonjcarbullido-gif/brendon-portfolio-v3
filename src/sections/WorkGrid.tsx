@@ -1,9 +1,6 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { projects } from '@/data/projects'
-import type { Project } from '@/data/projects'
 import { WorkCard } from '@/components/WorkCard'
-import { WorkModal } from '@/components/WorkModal'
 import { ease } from '@/constants/animation'
 
 const containerVariants = {
@@ -28,7 +25,7 @@ function topOffsetFor(i: number) {
 }
 
 export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const showFeatured = true
 
   return (
     <section
@@ -82,14 +79,17 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
                   marginTop: offset > 0 ? `${offset * 0.25}rem` : undefined,
                 }}
               >
-                <WorkCard project={p} index={i} onClick={() => setSelectedProject(p)} />
+                <WorkCard
+                  project={p}
+                  index={i}
+                  featured={showFeatured && i === 0}
+                  asLink
+                />
               </motion.div>
             )
           })}
         </motion.div>
       </div>
-
-      <WorkModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </section>
   )
 }
