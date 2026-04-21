@@ -28,7 +28,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: '/videos/anne-klein-hero.mp4',
-    image: '/images/work/anne-klein-gallery-1.jpg',
+    image: '/images/work/thumb-anne-klein-hero.jpg',
     caseStudy: {
       headline: 'Directing Power. Defining a Season.',
       overview:
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: '/videos/lotto-us-3.mp4',
-    image: '/images/work/joseph-abboud-still-1.jpg',
+    image: '/images/work/thumb-lotto-us-3.jpg',
     caseStudy: {
       headline: 'Launching a Legend. Building a Market.',
       overview:
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     year: 2025,
     mediaType: 'video',
     video: '/videos/matcha.mp4',
-    image: '/images/work/teeccino-gallery-2.jpg',
+    image: '/images/work/thumb-teeccino-packaging.jpg',
     caseStudy: {
       headline: 'One Person. Every Frame.',
       overview:
@@ -125,7 +125,7 @@ export const projects: Project[] = [
     year: 2024,
     mediaType: 'video',
     video: '/videos/teeccino-social.mp4',
-    image: '/images/work/teeccino-social.jpg',
+    image: '/images/work/thumb-teeccino-social.jpg',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
       overview:
@@ -158,7 +158,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: '/videos/joseph-abboud-correct.mp4',
-    image: '/images/work/joseph-abboud-gallery-1.jpg',
+    image: '/images/work/thumb-joseph-abboud-correct.jpg',
     caseStudy: {
       headline: 'The Craft of a Season.',
       overview:
@@ -213,7 +213,7 @@ export const projects: Project[] = [
     year: 2024,
     mediaType: 'video',
     video: '/videos/design-craft-1.mp4',
-    image: '/images/work/design-craft-gallery-2.jpg',
+    image: '/images/work/thumb-design-craft-1.jpg',
     caseStudy: {
       headline: 'Range. Versatility. Ownership.',
       overview:
@@ -245,7 +245,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: '/videos/swau-reel.mp4',
-    image: '/images/work/swau-1.jpg',
+    image: '/images/work/thumb-swau-reel.jpg',
     caseStudy: {
       headline: 'Collectibles. Culture. Content.',
       overview:
