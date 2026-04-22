@@ -121,7 +121,7 @@ export function CaseStudy() {
                 playsInline
                 preload="metadata"
                 crossOrigin="anonymous"
-                poster={project.image ?? `/images/work/${project.slug}.jpg`}
+                poster={project.image ?? `/images/work/${project.slug}.webp`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
@@ -343,7 +343,7 @@ export function CaseStudy() {
                       playsInline
                       preload="metadata"
                       crossOrigin="anonymous"
-                      poster={project.image ?? `/images/work/${project.slug}.jpg`}
+                      poster={project.image ?? `/images/work/${project.slug}.webp`}
                       style={{
                         width: '100%',
                         height: '100%',

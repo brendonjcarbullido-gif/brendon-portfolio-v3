@@ -29,7 +29,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: video('anne-klein-hero.mp4'),
-    image: '/images/work/thumb-anne-klein-hero.jpg',
+    image: '/images/work/anne-klein.webp',
     caseStudy: {
       headline: 'Directing Power. Defining a Season.',
       overview:
@@ -45,10 +45,10 @@ export const projects: Project[] = [
       ],
       color: '#1a3a6b',
       images: [
-        '/images/work/anne-klein-gallery-1.jpg',
+        '/images/work/anne-klein-gallery-1.webp',
         video('anne-klein-1.mp4'),
         video('anne-klein-2.mp4'),
-        '/images/work/anne-klein-gallery-2.jpg',
+        '/images/work/anne-klein-gallery-2.webp',
       ],
     },
   },
@@ -61,7 +61,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: video('lotto-us-3.mp4'),
-    image: '/images/work/thumb-lotto-us-3.jpg',
+    image: '/images/work/lotto-us-3.webp',
     caseStudy: {
       headline: 'Launching a Legend. Building a Market.',
       overview:
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     year: 2025,
     mediaType: 'video',
     video: video('matcha.mp4'),
-    image: '/images/work/thumb-teeccino-packaging.jpg',
+    image: '/images/work/teeccino-packaging.webp',
     caseStudy: {
       headline: 'One Person. Every Frame.',
       overview:
@@ -111,8 +111,8 @@ export const projects: Project[] = [
       color: '#3d2b1a',
       images: [
         video('teeccino-packaging.mp4'),
-        '/images/work/teeccino-dsc-1.jpg',
-        '/images/work/teeccino-dsc-2.jpg',
+        '/images/work/teeccino-dsc-1.webp',
+        '/images/work/teeccino-dsc-2.webp',
         video('teeccino-1.mp4'),
       ],
     },
@@ -126,7 +126,7 @@ export const projects: Project[] = [
     year: 2024,
     mediaType: 'video',
     video: video('teeccino-social.mp4'),
-    image: '/images/work/thumb-teeccino-social.jpg',
+    image: '/images/work/teeccino-social.webp',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
       overview:
@@ -159,7 +159,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: video('joseph-abboud-correct.mp4'),
-    image: '/images/work/thumb-joseph-abboud-correct.jpg',
+    image: '/images/work/joseph-abboud.webp',
     caseStudy: {
       headline: 'The Craft of a Season.',
       overview:
@@ -174,10 +174,10 @@ export const projects: Project[] = [
       ],
       color: '#1a1a2a',
       images: [
-        '/images/work/joseph-abboud-gallery-1.jpg',
+        '/images/work/joseph-abboud-gallery-1.webp',
         video('joseph-abboud-1.mp4'),
         video('joseph-abboud-3.mp4'),
-        '/images/work/joseph-abboud-gallery-2.jpg',
+        '/images/work/joseph-abboud-gallery-2.webp',
       ],
     },
   },
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     category: 'Visual Identity',
     year: 2023,
     mediaType: 'image',
-    image: '/images/work/casa-amour-gallery-2.jpg',
+    image: '/images/work/casa-amour-gallery-2.webp',
     caseStudy: {
       headline: 'Spirit. Identity. Presence.',
       overview:
@@ -198,10 +198,10 @@ export const projects: Project[] = [
       deliverables: ['Brand Manual', 'Visual Identity', 'Art Direction', 'Photography', 'Campaign Direction'],
       color: '#2a1a0a',
       images: [
-        '/images/work/casa-amour-gallery-1.jpg',
-        '/images/work/casa-amour-gallery-2.jpg',
-        '/images/work/casa-amour-gallery-3.jpg',
-        '/images/work/casa-amour-gallery-4.jpg',
+        '/images/work/casa-amour-gallery-1.webp',
+        '/images/work/casa-amour-gallery-2.webp',
+        '/images/work/casa-amour-gallery-3.webp',
+        '/images/work/casa-amour-gallery-4.webp',
       ],
     },
   },
@@ -214,7 +214,7 @@ export const projects: Project[] = [
     year: 2024,
     mediaType: 'video',
     video: video('design-craft-1.mp4'),
-    image: '/images/work/thumb-design-craft-1.jpg',
+    image: '/images/work/design-craft.webp',
     caseStudy: {
       headline: 'Range. Versatility. Ownership.',
       overview:
@@ -231,9 +231,9 @@ export const projects: Project[] = [
       color: '#1a1a1a',
       images: [
         video('design-craft-2.mp4'),
-        '/images/work/design-craft-gallery-1.jpg',
-        '/images/work/design-craft-gallery-2.jpg',
-        '/images/work/design-craft.jpg',
+        '/images/work/design-craft-gallery-1.webp',
+        '/images/work/design-craft-gallery-2.webp',
+        '/images/work/design-craft.webp',
       ],
     },
   },
@@ -246,7 +246,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'video',
     video: video('swau-reel.mp4'),
-    image: '/images/work/thumb-swau-reel.jpg',
+    image: '/images/work/swau-1.webp',
     caseStudy: {
       headline: 'Collectibles. Culture. Content.',
       overview:
@@ -261,10 +261,10 @@ export const projects: Project[] = [
       ],
       color: '#1a1a2e',
       images: [
-        '/images/work/swau-1.jpg',
-        '/images/work/swau-2.jpg',
-        '/images/work/swau-3.jpg',
-        '/images/work/swau-4.jpg',
+        '/images/work/swau-1.webp',
+        '/images/work/swau-2.webp',
+        '/images/work/swau-3.webp',
+        '/images/work/swau-4.webp',
       ],
     },
   },
