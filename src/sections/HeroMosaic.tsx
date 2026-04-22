@@ -79,7 +79,7 @@ export function HeroMosaic() {
     <section
       ref={ref}
       id="hero"
-      className="relative w-full overflow-hidden px-5 pb-20 pt-28 sm:px-6 sm:pb-24 sm:pt-32 md:min-h-[100svh] md:px-10 md:pb-28 md:pt-36 lg:pt-40"
+      className="relative w-full touch-manipulation overscroll-y-contain overflow-hidden px-5 pb-10 pt-28 sm:px-6 sm:pb-24 sm:pt-32 md:min-h-[100svh] md:px-10 md:pb-28 md:pt-36 lg:pt-40"
     >
       <div className="mx-auto grid w-full max-w-[120rem] grid-cols-12 gap-x-3 gap-y-8 md:gap-x-4 md:gap-y-0">
         {/* — LEFT: Name + role rotator + CTA pill */}
@@ -169,32 +169,53 @@ export function HeroMosaic() {
             })}
           </div>
 
-          {/* Mobile: simplified 2×2 grid — 4 tiles, gentler parallax */}
-          <div className="grid grid-cols-2 gap-2 md:hidden">
-            {heroTiles.slice(0, 4).map((tile, i) => {
+          {/* Mobile: featured tile + 3-thumbnail strip */}
+          <div className="flex flex-col gap-2 md:hidden">
+            {/* Featured full-width tile */}
+            {(() => {
+              const tile = heroTiles[0]
               const project = tile.project
               return (
                 <motion.figure
-                  key={tile.slug}
+                  key={`mob-featured-${tile.slug}`}
                   data-cursor={activeTile ? undefined : 'View'}
-                  className={`relative aspect-[4/5] overflow-hidden bg-cream-2 ${tile.kb}`}
-                  initial={{ opacity: 0, y: 32, scale: 0.96 }}
+                  className={`relative aspect-[4/3] w-full overflow-hidden bg-cream-2 ${tile.kb}`}
+                  initial={{ opacity: 0, y: 32, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: 1.1,
-                    ease: [0.19, 1, 0.22, 1],
-                    delay: 0.5 + i * 0.1,
-                  }}
-                  style={{ cursor: 'pointer', y: prefersReduced ? 0 : mobileY[i] }}
+                  transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1], delay: 0.5 }}
+                  style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[0] }}
                   onClick={() => setActiveTile(tile)}
                 >
-                  <TileMedia project={project} eager={i === 0} />
-                  <figcaption className="absolute bottom-1.5 left-1.5 font-mono text-[8px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
-                    <Scramble text={`${String(i + 1).padStart(2, '0')} · ${project.client.toUpperCase()}`} durationMs={1100} />
+                  <TileMedia project={project} eager />
+                  <figcaption className="absolute bottom-2 left-2 font-mono text-[8px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
+                    <Scramble text={`01 · ${project.client.toUpperCase()}`} durationMs={1100} />
                   </figcaption>
                 </motion.figure>
               )
-            })}
+            })()}
+            {/* 3-tile thumbnail strip */}
+            <div className="grid grid-cols-3 gap-1.5">
+              {heroTiles.slice(1, 4).map((tile, i) => {
+                const project = tile.project
+                return (
+                  <motion.figure
+                    key={`mob-strip-${tile.slug}`}
+                    data-cursor={activeTile ? undefined : 'View'}
+                    className={`relative aspect-square overflow-hidden bg-cream-2 ${tile.kb}`}
+                    initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 1.0, ease: [0.19, 1, 0.22, 1], delay: 0.62 + i * 0.08 }}
+                    style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[i + 1] }}
+                    onClick={() => setActiveTile(tile)}
+                  >
+                    <TileMedia project={project} />
+                    <figcaption className="absolute bottom-1 left-1 font-mono text-[7px] uppercase tracking-[0.12em] text-cream mix-blend-difference">
+                      {String(i + 2).padStart(2, '0')}
+                    </figcaption>
+                  </motion.figure>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -330,7 +351,7 @@ export function HeroMosaic() {
 
             <motion.button
               type="button"
-              className="absolute right-6 top-6 z-20 flex h-10 w-10 items-center justify-center"
+              className="absolute right-4 top-12 z-20 flex h-11 w-11 items-center justify-center sm:right-6 sm:top-6"
               onClick={() => setActiveTile(null)}
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -350,7 +371,8 @@ export function HeroMosaic() {
               exit={{ opacity: 0 }}
               transition={{ delay: 0.5 }}
             >
-              Click anywhere to close
+              <span className="sm:hidden">Tap to close</span>
+              <span className="hidden sm:inline">Click anywhere to close</span>
             </motion.p>
           </motion.div>
         )}

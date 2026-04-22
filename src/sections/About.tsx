@@ -73,11 +73,11 @@ export function About() {
         <div className="mt-10 grid gap-10 md:grid-cols-12 md:gap-x-10">
           {/* Portrait — stretches across 5 cols */}
           <div ref={portraitRef} className="md:col-span-5">
-            <div className="relative aspect-[3/4] overflow-hidden bg-cream-2">
+            <div className="relative overflow-hidden bg-cream-2">
               <motion.img
                 src="/images/about/brendon-portrait.jpg"
                 alt="Brendon Carbullido — Art Director"
-                className="absolute inset-[-10%] h-[120%] w-[120%] object-cover"
+                className="block w-full"
                 style={{ y: portraitY }}
               />
             </div>

@@ -110,7 +110,7 @@ export function Nav() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
           >
-            <div className="flex h-full flex-col justify-center px-8">
+            <div className="relative flex h-full flex-col justify-center px-8">
               <ul className="flex flex-col gap-6">
                 {links.map(({ to, label }, i) => (
                   <motion.li
@@ -128,6 +128,43 @@ export function Nav() {
                   </motion.li>
                 ))}
               </ul>
+
+              {/* Mobile menu footer — contact status + social links */}
+              <motion.div
+                className="absolute bottom-10 left-8 right-8 flex flex-col gap-3"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1], delay: 0.36 }}
+              >
+                <a
+                  href="mailto:brendonjcarbullido@gmail.com"
+                  className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light transition-colors duration-300 hover:text-ink"
+                >
+                  <span className="relative flex h-2 w-2 flex-shrink-0">
+                    <span className="absolute inset-0 animate-ping rounded-full bg-accent opacity-70" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                  </span>
+                  Available for projects
+                </a>
+                <div className="flex gap-6">
+                  <a
+                    href="https://www.instagram.com/brendon.carbullido"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light transition-colors duration-300 hover:text-ink"
+                  >
+                    Instagram ↗
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/brendoncarbullido"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light transition-colors duration-300 hover:text-ink"
+                  >
+                    LinkedIn ↗
+                  </a>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         )}

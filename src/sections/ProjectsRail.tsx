@@ -101,7 +101,7 @@ export function ProjectsRail() {
       id="work"
       className="relative"
       // Tune total height so horizontal travel feels right on each viewport.
-      style={{ height: `${panelCount * (size === 'mobile' ? 85 : 100)}svh` }}
+      style={{ height: `${panelCount * (size === 'mobile' ? 72 : 100)}svh` }}
     >
       <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
         {/* Section label + progress */}
@@ -153,8 +153,15 @@ export function ProjectsRail() {
           </motion.div>
         </div>
 
-        <p className="block px-5 pb-4 pt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-ink-light sm:px-6 sm:pb-6 md:hidden">
-          Scroll down — the reel moves with you ↗
+        <p className="block px-5 pb-5 pt-1 font-mono text-[9px] uppercase tracking-[0.18em] text-ink-light sm:px-6 sm:pb-6 md:hidden">
+          <motion.span
+            className="inline-flex items-center gap-2"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <span className="block h-px w-5 bg-ink-light" />
+            Scroll to browse work
+          </motion.span>
         </p>
       </div>
     </section>
@@ -174,7 +181,7 @@ function ProjectPanel({
   panelVw: number
   size: Size
 }) {
-  const panelHeight = size === 'mobile' ? '62svh' : size === 'tablet' ? '66svh' : '68svh'
+  const panelHeight = size === 'mobile' ? '56svh' : size === 'tablet' ? '66svh' : '68svh'
   return (
     <Link
       to={`/work/${project.slug}`}

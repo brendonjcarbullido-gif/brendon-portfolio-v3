@@ -57,6 +57,7 @@ function useCanHover() {
 
 export function Expertise() {
   const [hover, setHover] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState<number | null>(null)
   const canHover = useCanHover()
 
   return (
@@ -81,14 +82,15 @@ export function Expertise() {
         <div className="mt-12 border-t border-ink/15 sm:mt-14 md:mt-16">
           {cards.map((card, i) => {
             const isHover = canHover && hover === i
-            // On touch: descriptions always visible.
-            const showDescription = !canHover || isHover
+            // Desktop: show on hover. Mobile: tap to expand/collapse (accordion).
+            const showDescription = canHover ? isHover : expanded === i
             return (
               <motion.div
                 key={card.title}
-                className="group relative block w-full border-b border-ink/15 text-left"
-                onMouseEnter={() => setHover(i)}
-                onMouseLeave={() => setHover(null)}
+                className={`group relative block w-full border-b border-ink/15 text-left ${!canHover ? 'cursor-pointer' : ''}`}
+                onMouseEnter={() => canHover && setHover(i)}
+                onMouseLeave={() => canHover && setHover(null)}
+                onClick={() => !canHover && setExpanded(expanded === i ? null : i)}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -98,19 +100,33 @@ export function Expertise() {
                   <span className="col-span-2 pt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light sm:text-[11px] md:col-span-1">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h3 className="col-span-10 font-serif text-[clamp(1.5rem,3.25vw,3.25rem)] font-light italic leading-[1.02] tracking-[-0.02em] text-ink transition-colors duration-500 group-hover:text-accent md:col-span-6">
+                  <h3 className="col-span-9 font-serif text-[clamp(1.5rem,3.25vw,3.25rem)] font-light italic leading-[1.02] tracking-[-0.02em] text-ink transition-colors duration-500 group-hover:text-accent md:col-span-6">
                     {card.title}
                   </h3>
+                  {/* Mobile accordion toggle */}
+                  {!canHover && (
+                    <span aria-hidden className="col-span-1 flex items-start justify-end pt-2 md:hidden">
+                      <span
+                        className={`font-mono text-[16px] leading-none text-ink-light transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)] ${
+                          expanded === i ? 'rotate-45' : 'rotate-0'
+                        }`}
+                      >
+                        +
+                      </span>
+                    </span>
+                  )}
                   <div
-                    className={`col-span-12 row-start-2 overflow-hidden transition-[max-height,opacity,margin] duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] md:col-span-5 md:col-start-8 md:row-start-auto ${
+                    className={`col-span-12 row-start-2 overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] md:col-span-5 md:col-start-8 md:row-start-auto ${
                       canHover
                         ? isHover
                           ? 'max-h-[16rem] opacity-100'
                           : 'max-h-0 opacity-0'
-                        : 'max-h-[20rem] opacity-100'
+                        : showDescription
+                          ? 'max-h-[16rem] opacity-100'
+                          : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <p className="max-w-[44ch] font-sans text-[13px] font-light leading-[1.7] text-ink-light sm:text-[14px] md:text-[15px]">
+                    <p className={`max-w-[44ch] font-sans text-[13px] font-light leading-[1.7] text-ink-light sm:text-[14px] md:text-[15px] ${!canHover ? 'pb-4' : ''}`}>
                       {card.description}
                     </p>
                   </div>
