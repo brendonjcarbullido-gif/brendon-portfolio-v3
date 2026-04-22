@@ -38,6 +38,8 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
               muted
               loop
               playsInline
+              preload="metadata"
+              crossOrigin="anonymous"
               poster={project.image}
               className="block h-full w-full object-cover"
             />
@@ -69,6 +71,8 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
                     muted
                     loop
                     playsInline
+                    preload="metadata"
+                    crossOrigin="anonymous"
                     className="h-full w-full object-cover"
                   />
                 ) : (

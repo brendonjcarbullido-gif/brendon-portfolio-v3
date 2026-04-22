@@ -271,6 +271,8 @@ export function HeroMosaic() {
                     muted
                     loop
                     playsInline
+                    preload="metadata"
+                    crossOrigin="anonymous"
                     style={{
                       maxWidth: '100%',
                       maxHeight: '82vh',
@@ -404,6 +406,8 @@ function TileMedia({ project, eager }: { project: (typeof projects)[number]; eag
         muted
         loop
         playsInline
+        preload="metadata"
+        crossOrigin="anonymous"
         poster={project.image}
         className="absolute inset-0 h-full w-full object-cover"
       />

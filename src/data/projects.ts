@@ -1,3 +1,4 @@
+import { video } from '@/lib/media'
 export interface Project {
   id: string
   slug: string
@@ -27,7 +28,7 @@ export const projects: Project[] = [
     category: 'Campaign Direction',
     year: 2023,
     mediaType: 'video',
-    video: '/videos/anne-klein-hero.mp4',
+    video: video('anne-klein-hero.mp4'),
     image: '/images/work/thumb-anne-klein-hero.jpg',
     caseStudy: {
       headline: 'Directing Power. Defining a Season.',
@@ -45,8 +46,8 @@ export const projects: Project[] = [
       color: '#1a3a6b',
       images: [
         '/images/work/anne-klein-gallery-1.jpg',
-        '/videos/anne-klein-1.mp4',
-        '/videos/anne-klein-2.mp4',
+        video('anne-klein-1.mp4'),
+        video('anne-klein-2.mp4'),
         '/images/work/anne-klein-gallery-2.jpg',
       ],
     },
@@ -59,7 +60,7 @@ export const projects: Project[] = [
     category: 'Brand Identity',
     year: 2023,
     mediaType: 'video',
-    video: '/videos/lotto-us-3.mp4',
+    video: video('lotto-us-3.mp4'),
     image: '/images/work/thumb-lotto-us-3.jpg',
     caseStudy: {
       headline: 'Launching a Legend. Building a Market.',
@@ -75,10 +76,10 @@ export const projects: Project[] = [
       ],
       color: '#1a1a2e',
       images: [
-        '/videos/lotto-us-lifestyle.mp4',
-        '/videos/lotto-us-nostalgia.mp4',
-        '/videos/lotto-us-walk.mp4',
-        '/videos/lotto-us-1.mp4',
+        video('lotto-us-lifestyle.mp4'),
+        video('lotto-us-nostalgia.mp4'),
+        video('lotto-us-walk.mp4'),
+        video('lotto-us-1.mp4'),
       ],
     },
   },
@@ -90,7 +91,7 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2025,
     mediaType: 'video',
-    video: '/videos/matcha.mp4',
+    video: video('matcha.mp4'),
     image: '/images/work/thumb-teeccino-packaging.jpg',
     caseStudy: {
       headline: 'One Person. Every Frame.',
@@ -109,10 +110,10 @@ export const projects: Project[] = [
       ],
       color: '#3d2b1a',
       images: [
-        '/videos/teeccino-packaging.mp4',
+        video('teeccino-packaging.mp4'),
         '/images/work/teeccino-dsc-1.jpg',
         '/images/work/teeccino-dsc-2.jpg',
-        '/videos/teeccino-1.mp4',
+        video('teeccino-1.mp4'),
       ],
     },
   },
@@ -124,7 +125,7 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2024,
     mediaType: 'video',
-    video: '/videos/teeccino-social.mp4',
+    video: video('teeccino-social.mp4'),
     image: '/images/work/thumb-teeccino-social.jpg',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
@@ -142,10 +143,10 @@ export const projects: Project[] = [
       ],
       color: '#1a2e1a',
       images: [
-        '/videos/teeccino-social-ep0.mp4',
-        '/videos/teeccino-social-ep2.mp4',
-        '/videos/teeccino-social-3.mp4',
-        '/videos/teeccino-social-4.mp4',
+        video('teeccino-social-ep0.mp4'),
+        video('teeccino-social-ep2.mp4'),
+        video('teeccino-social-3.mp4'),
+        video('teeccino-social-4.mp4'),
       ],
     },
   },
@@ -157,7 +158,7 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2023,
     mediaType: 'video',
-    video: '/videos/joseph-abboud-correct.mp4',
+    video: video('joseph-abboud-correct.mp4'),
     image: '/images/work/thumb-joseph-abboud-correct.jpg',
     caseStudy: {
       headline: 'The Craft of a Season.',
@@ -174,8 +175,8 @@ export const projects: Project[] = [
       color: '#1a1a2a',
       images: [
         '/images/work/joseph-abboud-gallery-1.jpg',
-        '/videos/joseph-abboud-1.mp4',
-        '/videos/joseph-abboud-3.mp4',
+        video('joseph-abboud-1.mp4'),
+        video('joseph-abboud-3.mp4'),
         '/images/work/joseph-abboud-gallery-2.jpg',
       ],
     },
@@ -212,7 +213,7 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2024,
     mediaType: 'video',
-    video: '/videos/design-craft-1.mp4',
+    video: video('design-craft-1.mp4'),
     image: '/images/work/thumb-design-craft-1.jpg',
     caseStudy: {
       headline: 'Range. Versatility. Ownership.',
@@ -229,7 +230,7 @@ export const projects: Project[] = [
       ],
       color: '#1a1a1a',
       images: [
-        '/videos/design-craft-2.mp4',
+        video('design-craft-2.mp4'),
         '/images/work/design-craft-gallery-1.jpg',
         '/images/work/design-craft-gallery-2.jpg',
         '/images/work/design-craft.jpg',
@@ -244,7 +245,7 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2023,
     mediaType: 'video',
-    video: '/videos/swau-reel.mp4',
+    video: video('swau-reel.mp4'),
     image: '/images/work/thumb-swau-reel.jpg',
     caseStudy: {
       headline: 'Collectibles. Culture. Content.',
