@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { projects } from '@/data/projects'
+import { poster } from '@/lib/media'
 import { resume } from '@/data/resume'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
