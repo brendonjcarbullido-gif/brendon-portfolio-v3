@@ -6,9 +6,9 @@ import { Scramble } from '@/components/motion/Scramble'
 import { Magnetic } from '@/components/motion/Magnetic'
 import { SplitReveal } from '@/components/motion/SplitReveal'
 
-type FormStatus = 'idle' | 'sending' | 'success'
+type FormStatus = 'idle' | 'sending' | 'success' | 'error'
 
-const initialForm = { name: '', email: '', subject: '', message: '' }
+const initialForm = { name: '', email: '', subject: '', message: '', website: '' }
 
 export function Contact() {
   const [formData, setFormData] = useState(initialForm)
@@ -26,13 +26,12 @@ export function Contact() {
       if (res.ok) {
         setStatus('success')
         setFormData(initialForm)
-        return
+      } else {
+        setStatus('error')
       }
     } catch {
-      // backend not deployed — placeholder success
+      setStatus('error')
     }
-    setStatus('success')
-    setFormData(initialForm)
   }
 
   return (
@@ -119,6 +118,27 @@ export function Contact() {
                       className="w-full resize-y border-0 border-b border-ink/25 bg-transparent pb-3 font-serif text-[clamp(1.125rem,1.5vw,1.4rem)] font-light italic text-ink placeholder-ink/30 outline-none transition-colors duration-300 focus:border-accent"
                     />
                   </div>
+
+                  {/* Honeypot — invisible to users, bots fill it */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.website}
+                    onChange={(e) => setFormData((d) => ({ ...d, website: e.target.value }))}
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+                  />
+
+                  {status === 'error' && (
+                    <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-red-600">
+                      Something went wrong — email me directly:{' '}
+                      <a href="mailto:brendonjcarbullido@gmail.com" className="underline">
+                        brendonjcarbullido@gmail.com
+                      </a>
+                    </p>
+                  )}
 
                   <Magnetic strength={0.35} padding={80}>
                     <button

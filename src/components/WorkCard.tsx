@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Project } from '@/data/projects'
@@ -12,6 +13,21 @@ export interface WorkCardProps {
   asLink?: boolean
 }
 
+function useLazyInView(rootMargin = '300px') {
+  const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    if (!ref.current) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true) },
+      { rootMargin }
+    )
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [rootMargin])
+  return { ref, inView }
+}
+
 export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
   const year = String(project.year)
   const Wrapper: React.ElementType = asLink ? Link : 'button'
@@ -19,12 +35,14 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
     ? { to: `/work/${project.slug}` }
     : { type: 'button' as const, onClick }
 
+  const { ref: cardRef, inView } = useLazyInView()
+
   return (
     <Wrapper
       {...wrapperProps}
       className="group relative block w-full cursor-pointer bg-transparent text-left"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream-2">
+      <div ref={cardRef} className="relative aspect-[4/5] w-full overflow-hidden bg-cream-2">
         <motion.div
           className="relative h-full w-full"
           initial={false}
@@ -33,15 +51,15 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
         >
           {project.mediaType === 'video' && project.video ? (
             <video
-              src={project.video}
+              poster={project.image}
               autoPlay
               muted
               loop
               playsInline
               preload="metadata"
               crossOrigin="anonymous"
-              poster={project.image}
               className="block h-full w-full object-cover"
+              {...(inView ? { src: project.video } : {})}
             />
           ) : project.image ? (
             <img
@@ -63,28 +81,7 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
           {project.caseStudy.images.map((src, i) => {
             const isVid = src.endsWith('.mp4') || src.endsWith('.mov') || src.endsWith('.MOV')
             return (
-              <div key={`${src}-${i}`} className="relative aspect-[3/2] overflow-hidden bg-cream-2">
-                {isVid ? (
-                  <video
-                    src={src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    crossOrigin="anonymous"
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                )}
-              </div>
+              <SubMedia key={`${src}-${i}`} src={src} isVid={isVid} />
             )
           })}
         </div>
@@ -99,5 +96,33 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
         </span>
       </div>
     </Wrapper>
+  )
+}
+
+function SubMedia({ src, isVid }: { src: string; isVid: boolean }) {
+  const { ref, inView } = useLazyInView('200px')
+  return (
+    <div ref={ref} className="relative aspect-[3/2] overflow-hidden bg-cream-2">
+      {isVid ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          crossOrigin="anonymous"
+          className="h-full w-full object-cover"
+          {...(inView ? { src } : {})}
+        />
+      ) : (
+        <img
+          src={src}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
+      )}
+    </div>
   )
 }
