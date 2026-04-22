@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { Project } from '@/data/projects'
 import { ease } from '@/constants/animation';
+import { poster } from '@/lib/media'
 
 
 export interface WorkModalProps {
@@ -39,7 +40,7 @@ export function WorkModal({ project, onClose }: WorkModalProps) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="work-modal-title"
-          className="fixed inset-0 z-[200] overflow-y-auto bg-ink-deep"
+          className="fixed inset-0 z-[200] h-[100dvh] overflow-y-auto bg-ink-deep"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 60 }}
@@ -63,7 +64,8 @@ export function WorkModal({ project, onClose }: WorkModalProps) {
                   muted
                   loop
                   playsInline
-                  poster={project.image}
+                  preload="metadata"
+                  poster={poster(project.video!)}
                   className="h-full w-full object-cover"
                 />
               ) : project.image ? (

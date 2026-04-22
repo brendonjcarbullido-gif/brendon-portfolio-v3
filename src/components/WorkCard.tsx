@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Project } from '@/data/projects'
 import { ease } from '@/constants/animation'
+import { poster } from '@/lib/media'
 
 export interface WorkCardProps {
   project: Project
@@ -51,7 +52,7 @@ export function WorkCard({ project, onClick, asLink }: WorkCardProps) {
         >
           {project.mediaType === 'video' && project.video ? (
             <video
-              poster={project.image}
+              poster={poster(project.video!)}
               autoPlay
               muted
               loop

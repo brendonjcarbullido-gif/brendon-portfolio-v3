@@ -29,7 +29,7 @@ function buildAssetList(): MediaAsset[] {
   })
 
   // Above-the-fold static images
-  add('/images/about/brendon-portrait.jpg', 'image')
+  add('/images/about/brendon-portrait.webp', 'image')
 
   // Poster images for all video projects — mobile video fallback
   projects.forEach((p) => {

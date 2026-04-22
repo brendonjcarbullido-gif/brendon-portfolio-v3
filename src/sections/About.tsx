@@ -75,7 +75,7 @@ export function About() {
           <div ref={portraitRef} className="md:col-span-5 md:min-h-[140vh]">
             <div className="relative overflow-hidden bg-cream-2">
               <motion.img
-                src="/images/about/brendon-portrait.jpg"
+                src="/images/about/brendon-portrait.webp"
                 alt="Brendon Carbullido — Art Director"
                 className="block w-full"
                 style={{ y: portraitY }}
