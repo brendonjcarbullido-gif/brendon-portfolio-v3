@@ -31,14 +31,54 @@ export function AboutPage() {
             {identity.name}
             <span className="text-accent">.</span>
           </motion.h1>
+          {/* Summary */}
           <motion.p
-            className="mt-10 max-w-[60ch] font-serif text-[clamp(1.125rem,1.5vw,1.4rem)] font-light leading-[1.55] text-ink"
+            className="mt-10 max-w-[56ch] font-serif text-[clamp(1.125rem,1.5vw,1.4rem)] font-light leading-[1.65] text-ink"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease, delay: 0.25 }}
           >
             {summary}
           </motion.p>
+          {/* Impact stats strip */}
+          <motion.div
+            className="mt-14 flex flex-wrap gap-x-10 gap-y-6 border-t border-ink/15 pt-10"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease, delay: 0.4 }}
+          >
+            {resume.impact.map((stat) => (
+              <div key={stat.label}>
+                <p className="font-serif text-[clamp(2rem,3.5vw,3rem)] font-light italic leading-none text-ink">
+                  {stat.value}
+                </p>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+          {/* Client strip */}
+          <motion.div
+            className="mt-14 overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease, delay: 0.55 }}
+          >
+            <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light">
+              Clients
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {resume.clients.map((client) => (
+                <span
+                  key={client}
+                  className="font-serif text-[clamp(1rem,1.4vw,1.2rem)] font-light italic text-ink"
+                >
+                  {client}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -64,7 +104,7 @@ export function AboutPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.9, ease }}
             >
-              Seven years, lived.
+              Seven years<span className="text-accent">.</span>
             </motion.h2>
           </div>
 

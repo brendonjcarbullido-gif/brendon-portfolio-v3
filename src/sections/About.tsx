@@ -53,13 +53,13 @@ export function About() {
     target: portraitRef,
     offset: ['start end', 'end start'],
   })
-  const portraitY = useTransform(scrollYProgress, [0, 1], prefersReduced ? ['0%', '0%'] : ['8%', '-8%'])
+  const portraitY = useTransform(scrollYProgress, [0, 1], prefersReduced ? ['0%', '0%'] : ['12%', '-12%'])
 
   return (
     <section
       ref={sectionRef}
       id="about"
-      className="relative bg-cream px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40"
+      className="relative bg-cream px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40 md:pb-[40vh]"
     >
       <div className="mx-auto max-w-[120rem]">
         {/* Section label */}
@@ -72,7 +72,7 @@ export function About() {
         {/* — Magazine spread: portrait + prose + pull quote */}
         <div className="mt-10 grid gap-10 md:grid-cols-12 md:gap-x-10">
           {/* Portrait — stretches across 5 cols */}
-          <div ref={portraitRef} className="md:col-span-5">
+          <div ref={portraitRef} className="md:col-span-5 md:min-h-[140vh]">
             <div className="relative overflow-hidden bg-cream-2">
               <motion.img
                 src="/images/about/brendon-portrait.jpg"
@@ -88,57 +88,57 @@ export function About() {
           </div>
 
           {/* Prose — 6 cols, offset by 1 */}
-          <div className="flex flex-col gap-10 md:col-span-6 md:col-start-7">
-            <SplitReveal
-              as="h2"
-              className="font-serif text-[clamp(2.5rem,6vw,6rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink"
-              stagger={0.1}
-            >
-              {[
-                <span key="l1">A full creative</span>,
-                <span key="l2">department.</span>,
-                <span key="l3" className="not-italic text-ink-light">One person.</span>,
-              ]}
-            </SplitReveal>
+          <div className="md:col-span-6 md:col-start-7 md:self-start">
+            <div className="flex flex-col gap-10 md:sticky md:top-[15vh] lg:top-[18vh]">
+              <SplitReveal
+                as="h2"
+                className="font-serif text-[clamp(2.5rem,6vw,6rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink"
+                stagger={0.1}
+              >
+                {[
+                  <span key="l1">A full creative</span>,
+                  <span key="l2">department.</span>,
+                  <span key="l3" className="not-italic text-ink-light">One person.</span>,
+                ]}
+              </SplitReveal>
 
-            <motion.div
-              className="flex max-w-[44ch] flex-col gap-6 font-serif text-[clamp(1.0625rem,1.35vw,1.3rem)] font-light leading-[1.55] text-ink"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.9, ease, delay: 0.15 }}
-            >
-              <p>
-                <span className="float-left mr-2 mt-[0.2em] font-serif text-[2.75rem] font-light italic leading-[0.75] text-accent sm:text-[3.25rem] md:text-[3.75rem]">
-                  I
-                </span>
-                &apos;m an Art Director and Creative Director based in Los Angeles with
-                seven-plus years building brands that perform. I shoot, direct, edit,
-                and ship — strategy and execution in the same hand.
-              </p>
-              <p>
-                The discipline of a collegiate athlete shapes how I approach every
-                project. High performance isn&apos;t a phrase; it&apos;s the standard I
-                hold myself to creatively, strategically, and in every client
-                relationship.
-              </p>
-              <p>
-                I&apos;ve directed across agency, in-house, and independent contexts —
-                fashion, luxury spirits, CPG, beauty, wellness, jewelry, celebrity.
-                The thread is full creative ownership.
-              </p>
-            </motion.div>
+              <motion.div
+                className="flex max-w-[44ch] flex-col gap-6 font-serif text-[clamp(1.0625rem,1.35vw,1.3rem)] font-light leading-[1.55] text-ink"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.9, ease, delay: 0.15 }}
+              >
+                <p>
+                  <span className="float-left mr-2 mt-[0.2em] font-serif text-[2.75rem] font-light italic leading-[0.75] text-accent sm:text-[3.25rem] md:text-[3.75rem]">
+                    I
+                  </span>
+                  &apos;m an Art Director and Creative Director based in Los Angeles with
+                  seven-plus years building brands that perform. I shoot, direct, edit,
+                  and ship — strategy and execution in the same hand.
+                </p>
+                <p>
+                  I&apos;ve directed across agency, in-house, and independent contexts —
+                  fashion, luxury spirits, CPG, beauty, wellness, jewelry, celebrity.
+                  The thread is full creative ownership.
+                </p>
+                <p>
+                  My work spans celebrity shoots and recipe videos, brand launches and packaging systems,
+                  social ecosystems and campaign rollouts. Whatever the format, the standard stays the same.
+                </p>
+              </motion.div>
 
-            {/* Pull quote */}
-            <motion.blockquote
-              className="relative border-l border-ink/20 pl-6 font-serif text-[clamp(1.5rem,2.4vw,2.25rem)] font-light italic leading-[1.25] tracking-[-0.01em] text-ink"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease, delay: 0.2 }}
-            >
-              &ldquo;I don&apos;t guess — I learn before I create.&rdquo;
-            </motion.blockquote>
+              {/* Pull quote */}
+              <motion.blockquote
+                className="relative border-l border-ink/20 pl-6 font-serif text-[clamp(1.5rem,2.4vw,2.25rem)] font-light italic leading-[1.25] tracking-[-0.01em] text-ink"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.9, ease, delay: 0.2 }}
+              >
+                &ldquo;I don&apos;t guess — I learn before I create.&rdquo;
+              </motion.blockquote>
+            </div>
           </div>
         </div>
 

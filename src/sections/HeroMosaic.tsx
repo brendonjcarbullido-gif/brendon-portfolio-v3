@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { projects } from '@/data/projects'
+import { resume } from '@/data/resume'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
 
@@ -90,7 +91,7 @@ export function HeroMosaic() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
           >
-            <Scramble text="LOS ANGELES / 2019 — PRESENT" />
+            <Scramble text="LOS ANGELES / 2018 — PRESENT" />
           </motion.p>
 
           <h1 className="font-serif leading-[0.88] tracking-[-0.035em] text-ink">
@@ -121,8 +122,7 @@ export function HeroMosaic() {
             </p>
 
             <p className="max-w-[36ch] font-serif text-[clamp(1rem,1.35vw,1.4rem)] font-light leading-[1.5] text-ink">
-              A full creative department in one person. Seven years directing brands
-              that perform — from concept and camera to campaign and calendar.
+              {resume.summaryShort}
             </p>
 
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/30 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink sm:px-4">

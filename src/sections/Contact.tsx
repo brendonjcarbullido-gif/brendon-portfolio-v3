@@ -52,7 +52,7 @@ export function Contact() {
           >
             {[
               <span key="l1">Let&apos;s build</span>,
-              <span key="l2" className="not-italic">something sharp.</span>,
+              <span key="l2" className="not-italic">something fresh.</span>,
             ]}
           </SplitReveal>
         </div>

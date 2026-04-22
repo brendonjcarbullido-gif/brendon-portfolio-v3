@@ -9,7 +9,7 @@ const cards = [
   {
     title: 'Full Creative Ownership',
     description:
-      "From concept to camera to content calendar. I'm the strategist, shooter, director, and editor. One person. Full stack.",
+      "From concept to camera to content calendar. I'm the strategist, shooter, director, and editor. One person. Full suite.",
   },
   {
     title: 'Art Direction',

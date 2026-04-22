@@ -11,11 +11,13 @@ export const resume = {
     resumePdf: '/files/brendon-carbullido-resume.pdf',
   },
   summary:
-    'Multidisciplinary Art Director and Creative Strategist with 7+ years of full-ownership creative experience across agency, in-house, and freelance environments. Uniquely capable of functioning as an entire creative department — conceiving, shooting, directing, editing, and deploying content across every medium. The discipline of a collegiate athlete drives an approach that is both strategically rigorous and executional at every level. Known for transforming stagnant brand identities into cohesive, high-performing visual ecosystems. Proven track record: 45K+ followers, 40% engagement increase, and successful campaign launches for global names including Anne Klein, Joseph Abboud, and Lotto US.',
+    'One person. Every medium. Seven years building brands that perform — from concept and camera to campaign and calendar. Known for transforming stagnant identities into cohesive visual ecosystems that grow audiences and drive engagement.',
+  summaryShort:
+    'A full creative department in one person. Seven years directing brands that perform — from concept and camera to campaign and calendar.',
   impact: [
     { value: '45K+', label: 'Followers Built' },
     { value: '40%', label: 'Engagement Growth' },
-    { value: '7+', label: 'Agency Clients' },
+    { value: '7+', label: 'Years Experience' },
     { value: '6%', label: 'Engagement Rate' },
   ],
   experience: [
