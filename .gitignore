@@ -1,34 +1,19 @@
-node_modules/
-dist/
-public/videos/*.mov
-public/images/videography/
-public/images/videography/
-public/images/photography/
-public/images/video/
-public/images/design/
-# Allow portfolio images
-!public/images/work/
-!public/images/about/
-*.mov
-public/videos/lotto-us-hero.mp4
-public/videos/lotto-us-2.mp4
-public/videos/design-craft-hero.mp4
-public/videos/teeccino-social-2.mp4
-public/videos/joseph-abboud.mp4
-public/videos/teeccino-2.mp4
-public/videos/teeccino-social-1.mp4
-public/videos/design-craft-hero.mp4
-public/videos/teeccino-social-2.mp4
-public/videos/joseph-abboud.mp4
-public/videos/teeccino-2.mp4
-public/videos/teeccino-social-1.mp4
-public/videos/lotto-us-nostalgia.mp4
-public/videos/teeccino-social-ep2.mp4
+# Dependencies
+node_modules
 
-# Media now served from R2
-public/videos-optimized/
-public/images/posters/
+# Build output
+dist
+.vercel
+
+# Env
 .env.local
 .env.production
 
-public/videos/
+# Editor
+.DS_Store
+*.log
+
+# Media — served from Cloudflare R2
+public/videos
+public/videos-optimized
+public/images/posters

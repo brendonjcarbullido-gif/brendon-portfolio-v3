@@ -1,0 +1,6 @@
+public/videos
+public/videos-optimized
+public/images/posters
+node_modules
+dist
+.env.local
