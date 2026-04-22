@@ -408,7 +408,7 @@ function TileMedia({ project, eager }: { project: (typeof projects)[number]; eag
         playsInline
         preload="metadata"
         crossOrigin="anonymous"
-        poster={project.image}
+        poster={poster(project.video)}
         className="absolute inset-0 h-full w-full object-cover"
       />
     )
