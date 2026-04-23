@@ -2,7 +2,7 @@ import type { MediaAsset } from '@/hooks/useMediaPreload'
 import { projects } from '@/data/projects'
 
 // These 5 slugs map to the hero mosaic tiles — load them first
-const HERO_SLUGS = ['teeccino-social', 'anne-klein', 'joseph-abboud', 'lotto-us', 'casa-amour']
+const HERO_SLUGS = ['teeccino-packaging', 'anne-klein', 'joseph-abboud', 'lotto-us', 'casa-amour']
 
 function buildAssetList(): MediaAsset[] {
   const seen = new Set<string>()

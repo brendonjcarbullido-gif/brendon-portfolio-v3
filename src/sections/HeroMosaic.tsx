@@ -16,7 +16,7 @@ import { Scramble } from '@/components/motion/Scramble'
  */
 
 const TILE_SPECS = [
-  { slug: 'teeccino-social', className: 'col-span-7 row-span-3', parallaxDesk: -100, parallaxMob: -32, kb: 'kb-a' },
+  { slug: 'teeccino-packaging', className: 'col-span-7 row-span-3', parallaxDesk: -100, parallaxMob: -32, kb: 'kb-a' },
   { slug: 'anne-klein', className: 'col-span-5 row-span-2 col-start-8', parallaxDesk: 60, parallaxMob: 20, kb: 'kb-b' },
   { slug: 'joseph-abboud', className: 'col-span-4 row-span-2 col-start-1 row-start-4', parallaxDesk: 120, parallaxMob: 40, kb: 'kb-c' },
   { slug: 'lotto-us', className: 'col-span-5 row-span-2 col-start-5 row-start-4', parallaxDesk: -60, parallaxMob: -20, kb: 'kb-d' },
