@@ -8,7 +8,9 @@ export function video(filename: string): string {
 }
 
 export function poster(filename: string): string {
-  const clean = filename.replace(/\.(mp4|mov|webm)$/i, '.webp').replace(/^\/+/, '').replace(/^(videos|posters)\//, '');
+  // If a full URL is passed (e.g. video() output), extract just the filename
+  const name = /^https?:\/\//.test(filename) ? (filename.split('/').pop() ?? filename) : filename;
+  const clean = name.replace(/\.(mp4|mov|webm)$/i, '.webp').replace(/^\/+/, '').replace(/^(videos|posters)\//, '');
   if (USE_LOCAL || !R2_BASE) return `/images/posters/${clean}`;
   return `${R2_BASE}/posters/${clean}`;
 }
