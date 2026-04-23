@@ -93,8 +93,8 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2025,
     mediaType: 'video',
-    video: video('teeccino-packaging.mp4'),
-    image: '/images/work/teeccino-packaging.webp',
+    video: video('teeccino-matcha-hero.mp4'),
+    image: '/images/work/teeccino-social.webp',
     caseStudy: {
       headline: 'One Person. Every Frame.',
       overview:
@@ -129,8 +129,8 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2024,
     mediaType: 'video',
-    video: video('teeccino-matcha-hero.mp4'),
-    image: '/images/work/teeccino-social.webp',
+    video: video('teeccino-packaging.mp4'),
+    image: '/images/work/teeccino-packaging.webp',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
       overview:
