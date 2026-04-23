@@ -3,7 +3,7 @@ export const resume = {
     name: 'Brendon Carbullido',
     roles: ['Art Director', 'Creative Director', 'Brand Strategist'],
     location: 'Los Angeles, CA',
-    email: 'brendonjcarbullido@gmail.com',
+    email: 'contact@createdbybc.com',
     phone: '(650) 454-9689',
     portfolio: 'worksbyb.art',
     instagram: 'https://www.instagram.com/brendon.carbullido',

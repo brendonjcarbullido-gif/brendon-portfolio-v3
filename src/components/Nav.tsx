@@ -137,7 +137,7 @@ export function Nav() {
                 transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1], delay: 0.36 }}
               >
                 <a
-                  href="mailto:brendonjcarbullido@gmail.com"
+                  href="mailto:contact@createdbybc.com"
                   className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light transition-colors duration-300 hover:text-ink"
                 >
                   <span className="relative flex h-2 w-2 flex-shrink-0">

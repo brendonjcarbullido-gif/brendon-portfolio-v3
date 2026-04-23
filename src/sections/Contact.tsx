@@ -134,8 +134,8 @@ export function Contact() {
                   {status === 'error' && (
                     <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-red-600">
                       Something went wrong — email me directly:{' '}
-                      <a href="mailto:brendonjcarbullido@gmail.com" className="underline">
-                        brendonjcarbullido@gmail.com
+                      <a href="mailto:contact@createdbybc.com" className="underline">
+                        contact@createdbybc.com
                       </a>
                     </p>
                   )}
@@ -174,7 +174,7 @@ export function Contact() {
             <DirectList
               label="Direct"
               rows={[
-                { label: 'Email', value: 'brendonjcarbullido@gmail.com', href: 'mailto:brendonjcarbullido@gmail.com' },
+                { label: 'Email', value: 'contact@createdbybc.com', href: 'mailto:contact@createdbybc.com' },
                 { label: 'Phone', value: '(650) 454-9689', href: 'tel:+16504549689' },
                 { label: 'Location', value: 'Los Angeles, CA' },
               ]}

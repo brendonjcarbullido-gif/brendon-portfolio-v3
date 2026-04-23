@@ -20,8 +20,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const subjectLine = subject
-    ? `Portfolio contact: ${subject}`
-    : `Portfolio contact from ${name}`;
+    ? `New inquiry: ${subject} — createdbybc.com`
+    : `New inquiry from ${name} — createdbybc.com`;
 
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Portfolio <onboarding@resend.dev>',
+      from: 'Portfolio <contact@createdbybc.com>',
       to: ['brendonjcarbullido@gmail.com'],
       reply_to: email,
       subject: subjectLine,

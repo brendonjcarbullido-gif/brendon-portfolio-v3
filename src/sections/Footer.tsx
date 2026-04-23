@@ -7,7 +7,7 @@ export function Footer() {
       <div className="mx-auto max-w-[120rem]">
         <Magnetic strength={0.12} padding={120} className="block">
         <motion.a
-          href="mailto:brendonjcarbullido@gmail.com"
+          href="mailto:contact@createdbybc.com"
           data-cursor="Email"
           className="group block cursor-pointer"
           initial={{ opacity: 0, y: 24 }}
@@ -17,16 +17,16 @@ export function Footer() {
         >
           {/* Desktop: full email on one line */}
           <span className="hidden font-serif text-[clamp(3.5rem,11vw,12rem)] font-light italic leading-[0.88] tracking-[-0.03em] text-ink transition-colors duration-500 group-hover:text-accent sm:block">
-            brendonjcarbullido
+            contact
             <span className="text-accent group-hover:text-ink">@</span>
-            gmail
+            createdbybc.com
           </span>
           {/* Mobile: stacked for readability */}
           <span className="block font-serif text-[clamp(2.5rem,13vw,4rem)] font-light italic leading-[0.92] tracking-[-0.025em] text-ink transition-colors duration-500 group-hover:text-accent sm:hidden">
-            brendon
+            contact
             <br />
             <span className="text-accent group-hover:text-ink">@</span>
-            carbullido
+            createdbybc
           </span>
           <span className="mt-4 block font-mono text-[10px] uppercase tracking-[0.18em] text-ink-light">
             Get in touch ↗
