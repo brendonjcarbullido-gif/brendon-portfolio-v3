@@ -129,7 +129,7 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2024,
     mediaType: 'video',
-    video: video('teeccino-social-hero.mp4'),
+    video: video('teeccino-matcha-hero.mp4'),
     image: '/images/work/teeccino-social.webp',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
@@ -162,7 +162,7 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2023,
     mediaType: 'video',
-    video: video('joseph-abboud-correct.mp4'),
+    video: video('joseph-abboud.mp4'),
     image: '/images/work/joseph-abboud.webp',
     caseStudy: {
       headline: 'The Craft of a Season.',
