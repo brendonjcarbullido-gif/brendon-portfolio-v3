@@ -50,6 +50,16 @@ export function ProjectsRail() {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const isDragging = useRef(false)
+  const scrubberRef = useRef<HTMLDivElement>(null)
+
+  const handleScrubberClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!scrubberRef.current) return
+    const rect = scrubberRef.current.getBoundingClientRect()
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+    const index = Math.round(pct * (panelCount - 1))
+    setActiveIndex(index)
+    x.set(getSnapX(index, cfg, window.innerWidth))
+  }
 
   const x = useMotionValue(0)
   const xSpring = useSpring(x, { damping: 35, stiffness: 280, mass: 0.8 })
@@ -157,6 +167,62 @@ export function ProjectsRail() {
               />
             ))}
           </motion.div>
+        </div>
+
+        {/* Scrubber bar + dot indicators */}
+        <div className="px-5 pb-2 pt-3 sm:px-6 md:px-10">
+
+          {/* Scrubber bar */}
+          <div
+            ref={scrubberRef}
+            onClick={handleScrubberClick}
+            className="relative h-[2px] w-full cursor-pointer rounded-full bg-ink/12"
+            role="slider"
+            aria-valuenow={activeIndex + 1}
+            aria-valuemin={1}
+            aria-valuemax={panelCount}
+            aria-label="Browse work"
+          >
+            {/* Filled track */}
+            <div
+              className="absolute inset-y-0 left-0 origin-left rounded-full bg-ink"
+              style={{
+                width: '100%',
+                transform: `scaleX(${activeIndex / Math.max(1, panelCount - 1)})`,
+                transition: 'transform 0.5s cubic-bezier(0.19,1,0.22,1)',
+              }}
+            />
+            {/* Thumb */}
+            <div
+              className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-ink shadow-sm"
+              style={{
+                left: `calc(${(activeIndex / Math.max(1, panelCount - 1)) * 100}% - 6px)`,
+                transition: 'left 0.5s cubic-bezier(0.19,1,0.22,1)',
+              }}
+            />
+          </div>
+
+          {/* Dot indicators */}
+          <div className="mt-3 flex items-center justify-center gap-1.5">
+            {projects.map((p, i) => (
+              <button
+                key={p.slug}
+                type="button"
+                onClick={() => {
+                  setActiveIndex(i)
+                  x.set(getSnapX(i, cfg, window.innerWidth))
+                }}
+                className="rounded-full bg-ink transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style={{
+                  width: i === activeIndex ? '1.5rem' : '0.25rem',
+                  height: '0.25rem',
+                  opacity: i === activeIndex ? 1 : 0.25,
+                }}
+                aria-label={`Go to ${p.client}`}
+              />
+            ))}
+          </div>
+
         </div>
 
         {/* Hint */}
