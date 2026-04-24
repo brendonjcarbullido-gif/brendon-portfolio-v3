@@ -2,20 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   motion,
-  useScroll,
-  useTransform,
+  useMotionValue,
+  useSpring,
   useReducedMotion,
-  useMotionValueEvent,
+  type PanInfo,
 } from 'framer-motion'
 import { projects } from '@/data/projects'
-
-/**
- * ProjectsRail — horizontal scroll-linked rail on all breakpoints, with
- * panel widths and rail travel tuned per viewport class:
- *   mobile   : panel 86vw, gap 16px
- *   tablet   : panel 72vw, gap 24px
- *   desktop  : panel 62vw, gap 32px
- */
 
 type Size = 'mobile' | 'tablet' | 'desktop'
 
@@ -45,66 +37,67 @@ const CONFIG = {
 
 type RailCfg = (typeof CONFIG)[keyof typeof CONFIG]
 
-/**
- * useTravelPx — resolves total horizontal travel in pixels given the
- * current viewport width. Recomputes on resize. Keeping travel in pixels
- * lets useTransform interpolate cleanly (framer-motion can't reliably
- * interpolate between a bare `0vw` and a mixed-unit calc() string).
- */
-function useTravelPx(panelCount: number, cfg: RailCfg) {
-  const [travel, setTravel] = useState(() => {
-    if (typeof window === 'undefined') return 0
-    return compute(panelCount, cfg, window.innerWidth)
-  })
-  useEffect(() => {
-    const update = () => setTravel(compute(panelCount, cfg, window.innerWidth))
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [panelCount, cfg])
-  return travel
-}
-
-function compute(panelCount: number, cfg: RailCfg, vw: number) {
-  const vwPx = vw / 100
-  const panels = (panelCount - 1) * cfg.panelVw * vwPx
-  const gaps = (panelCount - 1) * cfg.gap
-  const leadPad = cfg.leadPadVw * vwPx
-  return panels + gaps - leadPad
+function getSnapX(index: number, cfg: RailCfg, vw: number): number {
+  const panelPx = (cfg.panelVw / 100) * vw
+  return -(index * (panelPx + cfg.gap))
 }
 
 export function ProjectsRail() {
-  const sectionRef = useRef<HTMLElement>(null)
   const prefersReduced = useReducedMotion()
   const size = useSize()
   const cfg = CONFIG[size]
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  })
-
   const panelCount = projects.length
-  const travelPx = useTravelPx(panelCount, cfg)
-  const x = useTransform(scrollYProgress, [0, 1], [0, prefersReduced ? 0 : -travelPx])
-  const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1])
 
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const idx = Math.min(panelCount - 1, Math.max(0, Math.round(v * (panelCount - 1))))
-    setActiveIndex(idx)
-  })
+  const [activeIndex, setActiveIndex] = useState(0)
+  const isDragging = useRef(false)
+
+  const x = useMotionValue(0)
+  const xSpring = useSpring(x, { damping: 35, stiffness: 280, mass: 0.8 })
+
+  const handleDragStart = () => {
+    isDragging.current = true
+  }
+
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
+    const vw = window.innerWidth
+    const velocity = info.velocity.x
+    let next = activeIndex
+
+    if (velocity < -300) {
+      next = Math.min(panelCount - 1, activeIndex + 1)
+    } else if (velocity > 300) {
+      next = Math.max(0, activeIndex - 1)
+    } else {
+      const current = x.get()
+      let minDist = Infinity
+      for (let i = 0; i < panelCount; i++) {
+        const snapX = getSnapX(i, cfg, vw)
+        const dist = Math.abs(current - snapX)
+        if (dist < minDist) {
+          minDist = dist
+          next = i
+        }
+      }
+    }
+
+    setActiveIndex(next)
+    x.set(getSnapX(next, cfg, window.innerWidth))
+    setTimeout(() => {
+      isDragging.current = false
+    }, 50)
+  }
+
+  const panelHeight = size === 'mobile' ? '56svh' : size === 'tablet' ? '66svh' : '68svh'
 
   return (
     <section
-      ref={sectionRef}
       id="work"
-      className="relative"
-      // Tune total height so horizontal travel feels right on each viewport.
-      style={{ height: `${panelCount * (size === 'mobile' ? 72 : 100)}svh` }}
+      className="relative bg-cream overflow-hidden"
+      style={{ height: '100svh' }}
     >
-      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
-        {/* Section label + progress */}
+      <div className="flex h-full flex-col overflow-hidden">
+
+        {/* Header row */}
         <div className="relative z-10 flex items-start justify-between gap-4 px-5 pt-24 sm:px-6 sm:pt-28 md:px-10 md:pt-32">
           <div className="min-w-0">
             <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-light sm:text-[11px]">
@@ -121,24 +114,36 @@ export function ProjectsRail() {
               {String(activeIndex + 1).padStart(2, '0')} / {String(panelCount).padStart(2, '0')}
             </span>
             <div className="relative hidden h-px w-16 bg-ink/15 sm:block md:w-32">
-              <motion.div
-                className="absolute inset-y-0 left-0 origin-left bg-ink"
-                style={{ scaleX: progressScale }}
+              <div
+                className="absolute inset-y-0 left-0 origin-left bg-ink transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style={{ transform: `scaleX(${activeIndex / Math.max(1, panelCount - 1)})` }}
               />
             </div>
           </div>
         </div>
 
-        {/* Horizontal track */}
-        <div className="relative flex-1">
+        {/* Drag track */}
+        <div className="relative flex-1 select-none">
           <motion.div
-            className="absolute inset-y-0 left-0 flex items-center"
+            drag="x"
+            dragConstraints={{
+              left: getSnapX(panelCount - 1, cfg, typeof window !== 'undefined' ? window.innerWidth : 1440),
+              right: 0,
+            }}
+            dragElastic={0.06}
+            dragMomentum={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
             style={{
-              x,
+              x: prefersReduced ? x : xSpring,
               gap: `${cfg.gap}px`,
               paddingLeft: `${cfg.leadPadVw}vw`,
               paddingRight: `${cfg.trailPadVw}vw`,
+              cursor: 'grab',
+              touchAction: 'pan-y',
             }}
+            whileDrag={{ cursor: 'grabbing' }}
+            className="absolute inset-y-0 left-0 flex items-center"
           >
             {projects.map((p, i) => (
               <ProjectPanel
@@ -147,22 +152,25 @@ export function ProjectsRail() {
                 project={p}
                 active={i === activeIndex}
                 panelVw={cfg.panelVw}
-                size={size}
+                panelHeight={panelHeight}
+                isDragging={isDragging}
               />
             ))}
           </motion.div>
         </div>
 
-        <p className="block px-5 pb-5 pt-1 font-mono text-[9px] uppercase tracking-[0.18em] text-ink-light sm:px-6 sm:pb-6 md:hidden">
+        {/* Hint */}
+        <p className="block px-5 pb-5 pt-1 font-mono text-[9px] uppercase tracking-[0.18em] text-ink-light sm:px-6 sm:pb-6">
           <motion.span
             className="inline-flex items-center gap-2"
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
           >
             <span className="block h-px w-5 bg-ink-light" />
-            Scroll to browse work
+            Drag to browse
           </motion.span>
         </p>
+
       </div>
     </section>
   )
@@ -173,19 +181,25 @@ function ProjectPanel({
   index,
   active,
   panelVw,
-  size,
+  panelHeight,
+  isDragging,
 }: {
   project: (typeof projects)[number]
   index: number
   active: boolean
   panelVw: number
-  size: Size
+  panelHeight: string
+  isDragging: React.RefObject<boolean>
 }) {
-  const panelHeight = size === 'mobile' ? '56svh' : size === 'tablet' ? '66svh' : '68svh'
+  const handleClick = (e: React.MouseEvent) => {
+    if (isDragging.current) e.preventDefault()
+  }
+
   return (
     <Link
       to={`/work/${project.slug}`}
       data-cursor="View"
+      onClick={handleClick}
       className="group relative block flex-shrink-0 overflow-hidden bg-cream-2"
       style={{ width: `${panelVw}vw`, height: panelHeight }}
     >
