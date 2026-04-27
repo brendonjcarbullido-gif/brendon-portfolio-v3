@@ -176,9 +176,9 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2023,
     mediaType: 'video',
-    video: preview('joseph-abboud.mp4'),
-    previewVideo: preview('joseph-abboud.mp4'),
-    fullVideo: video('joseph-abboud.mp4'),
+    video: preview('joseph-abboud-correct.mp4'),
+    previewVideo: preview('joseph-abboud-correct.mp4'),
+    fullVideo: video('joseph-abboud-correct.mp4'),
     image: '/images/work/joseph-abboud.webp',
     caseStudy: {
       headline: 'The Craft of a Season.',
