@@ -23,7 +23,8 @@ export function poster(filename: string): string {
   const clean = name
     .replace(/\.(mp4|mov|webm)$/i, '')
     .replace(/^\/+/, '')
-    .replace(/^(videos|posters)\//, '');
+    .replace(/^(videos\/preview\/|videos\/|posters\/)/, '')
+    .replace(/-preview$/, '');
   return `${base()}/images/posters/${clean}.webp`;
 }
 
