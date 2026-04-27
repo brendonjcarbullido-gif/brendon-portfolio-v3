@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { projects } from '@/data/projects'
-import { poster } from '@/lib/media'
 import { resume } from '@/data/resume'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
@@ -264,9 +263,9 @@ export function HeroMosaic() {
                   maxWidth: '100%',
                 }}
               >
-                {activeTile.project.mediaType === 'video' && activeTile.project.video ? (
+                {activeTile.project.mediaType === 'video' && (activeTile.project.fullVideo ?? activeTile.project.video) ? (
                   <video
-                    src={activeTile.project.video}
+                    src={activeTile.project.fullVideo ?? activeTile.project.video}
                     poster={activeTile.project.image}
                     autoPlay
                     muted
@@ -409,7 +408,7 @@ function TileMedia({ project, eager }: { project: (typeof projects)[number]; eag
         playsInline
         preload="metadata"
         crossOrigin="anonymous"
-        poster={poster(project.video)}
+        poster={project.image ?? ''}
         className="absolute inset-0 h-full w-full object-cover"
       />
     )

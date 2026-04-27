@@ -1,16 +1,33 @@
 const R2_BASE = import.meta.env.VITE_MEDIA_URL || '';
 const USE_LOCAL = import.meta.env.VITE_USE_LOCAL_MEDIA === '1';
 
+function base() {
+  return USE_LOCAL || !R2_BASE ? '' : R2_BASE;
+}
+
 export function video(filename: string): string {
   const clean = filename.replace(/^\/+/, '').replace(/^videos\//, '');
-  if (USE_LOCAL || !R2_BASE) return `/videos/${clean}`;
-  return `${R2_BASE}/videos/${clean}`;
+  return `${base()}/videos/${clean}`;
+}
+
+export function preview(filename: string): string {
+  const clean = filename
+    .replace(/^\/+/, '')
+    .replace(/^videos\//, '')
+    .replace(/\.mp4$/i, '');
+  return `${base()}/videos/preview/${clean}-preview.mp4`;
 }
 
 export function poster(filename: string): string {
-  // If a full URL is passed (e.g. video() output), extract just the filename
   const name = /^https?:\/\//.test(filename) ? (filename.split('/').pop() ?? filename) : filename;
-  const clean = name.replace(/\.(mp4|mov|webm)$/i, '.webp').replace(/^\/+/, '').replace(/^(videos|posters)\//, '');
-  if (USE_LOCAL || !R2_BASE) return `/images/posters/${clean}`;
-  return `${R2_BASE}/posters/${clean}`;
+  const clean = name
+    .replace(/\.(mp4|mov|webm)$/i, '')
+    .replace(/^\/+/, '')
+    .replace(/^(videos|posters)\//, '');
+  return `${base()}/images/posters/${clean}.webp`;
+}
+
+export function image(filename: string): string {
+  const clean = filename.replace(/^\/+/, '').replace(/^images\//, '');
+  return `${base()}/images/${clean}`;
 }

@@ -1,4 +1,5 @@
-import { video } from '@/lib/media'
+import { video, preview } from '@/lib/media'
+
 export interface Project {
   id: string
   slug: string
@@ -8,7 +9,9 @@ export interface Project {
   year: string | number
   mediaType: 'image' | 'video'
   image?: string
-  video?: string
+  video?: string        // 480p preview — used by cards, mosaic, rail
+  previewVideo?: string // explicit 480p reference
+  fullVideo?: string    // full-res — used by case study hero and lightbox
   caseStudy: {
     headline: string
     overview: string
@@ -28,7 +31,9 @@ export const projects: Project[] = [
     category: 'Campaign Direction',
     year: 2023,
     mediaType: 'video',
-    video: video('anne-klein-hero.mp4'),
+    video: preview('anne-klein-hero.mp4'),
+    previewVideo: preview('anne-klein-hero.mp4'),
+    fullVideo: video('anne-klein-hero.mp4'),
     image: '/images/work/anne-klein.webp',
     caseStudy: {
       headline: 'Directing Power. Defining a Season.',
@@ -62,7 +67,9 @@ export const projects: Project[] = [
     category: 'Brand Identity',
     year: 2023,
     mediaType: 'video',
-    video: video('lotto-us-3.mp4'),
+    video: preview('lotto-us-3.mp4'),
+    previewVideo: preview('lotto-us-3.mp4'),
+    fullVideo: video('lotto-us-3.mp4'),
     image: '/images/work/lotto-us-3.webp',
     caseStudy: {
       headline: 'Launching a Legend. Building a Market.',
@@ -93,7 +100,9 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2025,
     mediaType: 'video',
-    video: video('teeccino-matcha-hero.mp4'),
+    video: preview('teeccino-matcha-hero.mp4'),
+    previewVideo: preview('teeccino-matcha-hero.mp4'),
+    fullVideo: video('teeccino-matcha-hero.mp4'),
     image: '/images/work/teeccino-social.webp',
     caseStudy: {
       headline: 'One Person. Every Frame.',
@@ -129,7 +138,9 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2024,
     mediaType: 'video',
-    video: video('teeccino-packaging.mp4'),
+    video: preview('teeccino-packaging.mp4'),
+    previewVideo: preview('teeccino-packaging.mp4'),
+    fullVideo: video('teeccino-packaging.mp4'),
     image: '/images/work/teeccino-packaging.webp',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
@@ -162,7 +173,9 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2023,
     mediaType: 'video',
-    video: video('joseph-abboud.mp4'),
+    video: preview('joseph-abboud.mp4'),
+    previewVideo: preview('joseph-abboud.mp4'),
+    fullVideo: video('joseph-abboud.mp4'),
     image: '/images/work/joseph-abboud.webp',
     caseStudy: {
       headline: 'The Craft of a Season.',
@@ -221,7 +234,9 @@ export const projects: Project[] = [
     category: 'Art Direction',
     year: 2024,
     mediaType: 'video',
-    video: video('design-craft-1.mp4'),
+    video: preview('design-craft-1.mp4'),
+    previewVideo: preview('design-craft-1.mp4'),
+    fullVideo: video('design-craft-1.mp4'),
     image: '/images/work/design-craft.webp',
     caseStudy: {
       headline: 'Range. Versatility. Ownership.',
@@ -255,7 +270,9 @@ export const projects: Project[] = [
     category: 'Content Direction',
     year: 2023,
     mediaType: 'video',
-    video: video('swau-reel.mp4'),
+    video: preview('swau-reel.mp4'),
+    previewVideo: preview('swau-reel.mp4'),
+    fullVideo: video('swau-reel.mp4'),
     image: '/images/work/swau-1.webp',
     caseStudy: {
       headline: 'Collectibles. Culture. Content.',

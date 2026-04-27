@@ -112,9 +112,9 @@ export function CaseStudy() {
       <main className="case-study-shell">
         <aside className="case-study-left">
           <div style={{ position: 'absolute', inset: 0 }}>
-            {project.mediaType === 'video' && project.video ? (
+            {project.mediaType === 'video' && (project.fullVideo ?? project.video) ? (
               <video
-                src={project.video}
+                src={project.fullVideo ?? project.video}
                 autoPlay
                 muted
                 loop
