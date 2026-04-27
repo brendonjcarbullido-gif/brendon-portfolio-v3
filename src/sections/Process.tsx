@@ -40,7 +40,7 @@ export function Process() {
     <section
       ref={ref}
       id="process"
-      className="relative bg-cream-2 px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40"
+      className="relative isolate bg-cream-2 px-5 py-24 text-ink sm:px-6 sm:py-28 md:px-10 md:py-40"
     >
       <div className="mx-auto max-w-[120rem]">
         <div className="grid gap-10 md:grid-cols-12">

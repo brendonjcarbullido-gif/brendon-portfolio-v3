@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import type { Project } from '@/data/projects'
 import { ease } from '@/constants/animation'
+import { poster } from '@/lib/media'
 
 export interface WorkCardProps {
   project: Project
@@ -112,6 +113,7 @@ function SubMedia({ src, isVid }: { src: string; isVid: boolean }) {
           preload="metadata"
           crossOrigin="anonymous"
           className="h-full w-full object-cover"
+          poster={poster(src)}
           {...(inView ? { src } : {})}
         />
       ) : (

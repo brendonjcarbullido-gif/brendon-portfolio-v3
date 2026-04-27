@@ -106,7 +106,7 @@ export const projects: Project[] = [
     video: preview('teeccino-matcha-hero.mp4'),
     previewVideo: preview('teeccino-matcha-hero.mp4'),
     fullVideo: video('teeccino-matcha-hero.mp4'),
-    image: '/images/work/teeccino-social.webp',
+    image: '/images/work/teeccino-packaging.webp',
     caseStudy: {
       headline: 'One Person. Every Frame.',
       overview:
@@ -144,7 +144,7 @@ export const projects: Project[] = [
     video: preview('teeccino-packaging.mp4'),
     previewVideo: preview('teeccino-packaging.mp4'),
     fullVideo: video('teeccino-packaging.mp4'),
-    image: '/images/work/teeccino-packaging.webp',
+    image: '/images/work/teeccino-social.webp',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
       overview:

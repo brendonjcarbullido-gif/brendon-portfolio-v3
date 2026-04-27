@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { type CSSProperties, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { projects } from '@/data/projects'
+import { poster } from '@/lib/media'
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const clean = hex.replace('#', '')
@@ -343,7 +344,7 @@ export function CaseStudy() {
                       playsInline
                       preload="metadata"
                       crossOrigin="anonymous"
-                      poster={project.image ?? `/images/work/${project.slug}.webp`}
+                      poster={poster(img) || project.image || `/images/work/${project.slug}.webp`}
                       style={{
                         width: '100%',
                         height: '100%',
