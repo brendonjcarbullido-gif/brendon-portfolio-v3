@@ -30,7 +30,7 @@ function useSize(): Size {
 }
 
 const CONFIG = {
-  mobile: { panelVw: 86, gap: 16, leadPadVw: 7, trailPadVw: 7 },
+  mobile: { panelVw: 80, gap: 16, leadPadVw: 7, trailPadVw: 12 },
   tablet: { panelVw: 72, gap: 24, leadPadVw: 14, trailPadVw: 14 },
   desktop: { panelVw: 62, gap: 32, leadPadVw: 18, trailPadVw: 20 },
 } as const
@@ -178,10 +178,33 @@ export function ProjectsRail() {
             onClick={handleScrubberClick}
             className="relative h-[2px] w-full cursor-pointer rounded-full bg-ink/12"
             role="slider"
+            tabIndex={0}
             aria-valuenow={activeIndex + 1}
             aria-valuemin={1}
             aria-valuemax={panelCount}
             aria-label="Browse work"
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault()
+                const next = Math.min(panelCount - 1, activeIndex + 1)
+                setActiveIndex(next)
+                x.set(getSnapX(next, cfg, window.innerWidth))
+              } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault()
+                const next = Math.max(0, activeIndex - 1)
+                setActiveIndex(next)
+                x.set(getSnapX(next, cfg, window.innerWidth))
+              } else if (e.key === 'Home') {
+                e.preventDefault()
+                setActiveIndex(0)
+                x.set(getSnapX(0, cfg, window.innerWidth))
+              } else if (e.key === 'End') {
+                e.preventDefault()
+                const last = panelCount - 1
+                setActiveIndex(last)
+                x.set(getSnapX(last, cfg, window.innerWidth))
+              }
+            }}
           >
             {/* Filled track */}
             <div
@@ -212,14 +235,20 @@ export function ProjectsRail() {
                   setActiveIndex(i)
                   x.set(getSnapX(i, cfg, window.innerWidth))
                 }}
-                className="rounded-full bg-ink transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style={{
-                  width: i === activeIndex ? '1.5rem' : '0.25rem',
-                  height: '0.25rem',
-                  opacity: i === activeIndex ? 1 : 0.25,
-                }}
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center"
                 aria-label={`Go to ${p.client}`}
-              />
+              >
+                <span
+                  className="rounded-full bg-ink transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                  style={{
+                    width: i === activeIndex ? '1.5rem' : '0.25rem',
+                    height: '0.25rem',
+                    opacity: i === activeIndex ? 1 : 0.25,
+                    display: 'block',
+                  }}
+                  aria-hidden
+                />
+              </button>
             ))}
           </div>
 

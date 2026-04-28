@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import type { CSSProperties } from 'react'
 import { projects } from '@/data/projects'
 import { WorkCard } from '@/components/WorkCard'
 import { ease } from '@/constants/animation'
@@ -73,11 +74,11 @@ export function WorkGrid({ omitHeader = false }: { omitHeader?: boolean }) {
               <motion.div
                 key={p.slug}
                 variants={itemVariants}
-                className="h-full"
+                className="h-full card-offset"
                 style={{
+                  '--card-offset': offset > 0 ? `${offset * 0.25}rem` : '0px',
                   gridColumn: `span ${span} / span ${span}`,
-                  marginTop: offset > 0 ? `${offset * 0.25}rem` : undefined,
-                }}
+                } as CSSProperties}
               >
                 <WorkCard
                   project={p}

@@ -40,6 +40,7 @@ body {
   background: var(--cream);
   overflow-x: hidden;
   line-height: 1.55;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 ::selection { background: var(--ink); color: var(--cream); }
@@ -99,4 +100,10 @@ textarea,
   .kb-c > img, .kb-c > video,
   .kb-d > img, .kb-d > video,
   .kb-e > img, .kb-e > video { animation: none !important; transform: none !important; }
+}
+
+/* Work grid — stagger offsets only apply in the multi-column (md+) layout */
+.card-offset { margin-top: var(--card-offset, 0px); }
+@media (max-width: 767px) {
+  .card-offset { margin-top: 0 !important; }
 }

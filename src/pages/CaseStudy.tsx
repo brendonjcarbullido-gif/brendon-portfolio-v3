@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { type CSSProperties, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { projects } from '@/data/projects'
 import { poster } from '@/lib/media'
 
@@ -190,27 +190,31 @@ export function CaseStudy() {
             paddingBottom: '3rem',
           }}
         >
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
+          <Link
+            to="/work"
             style={{
               position: 'sticky',
               top: 0,
               zIndex: 10,
-              display: 'inline-block',
-              border: 'none',
-              background: 'transparent',
+              display: 'block',
+              background: 'rgba(10,10,10,0.72)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
               fontFamily: 'DM Mono, Menlo, Monaco, Consolas, monospace',
               fontSize: '0.65rem',
               textTransform: 'uppercase',
               letterSpacing: '0.2em',
-              color: 'rgba(255,255,255,0.4)',
-              cursor: 'pointer',
-              padding: '1.5rem 0',
+              color: 'rgba(255,255,255,0.5)',
+              marginLeft: 'calc(-1 * clamp(2rem, 5vw, 5rem))',
+              marginRight: 'calc(-1 * clamp(2rem, 5vw, 5rem))',
+              paddingLeft: 'clamp(2rem, 5vw, 5rem)',
+              paddingRight: 'clamp(2rem, 5vw, 5rem)',
+              paddingTop: '1.25rem',
+              paddingBottom: '1.25rem',
             }}
           >
             ← Work
-          </button>
+          </Link>
 
           <h2
             style={{
@@ -374,17 +378,15 @@ export function CaseStudy() {
           </section>
 
           {nextProject ? (
-            <button
-              type="button"
-              onClick={() => navigate(`/work/${nextProject.slug}`)}
+            <Link
+              to={`/work/${nextProject.slug}`}
               style={{
+                display: 'block',
                 width: '100%',
                 textAlign: 'left',
                 background: 'transparent',
-                border: 'none',
                 borderTop: '1px solid rgba(255,255,255,0.08)',
                 paddingTop: '3rem',
-                cursor: 'pointer',
               }}
             >
               <p style={{ ...labelStyle, marginBottom: '1rem' }}>Next Project</p>
@@ -410,7 +412,7 @@ export function CaseStudy() {
               >
                 View Case Study →
               </p>
-            </button>
+            </Link>
           ) : null}
         </section>
       </main>

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ScrollProgress } from '@/components/motion/ScrollProgress'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 
 const links = [
   { to: '/work', label: 'Work' },
@@ -14,6 +15,8 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const menuRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(menuRef, open)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 24)
@@ -89,6 +92,7 @@ export function Nav() {
             type="button"
             className="flex h-11 w-11 items-center justify-center md:hidden"
             aria-expanded={open}
+            aria-controls="mobile-menu"
             aria-label="Toggle menu"
             onClick={() => setOpen((o) => !o)}
           >
@@ -103,6 +107,8 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
+            id="mobile-menu"
             key="mobile-menu"
             className="fixed inset-0 z-[50] bg-cream md:hidden"
             initial={{ opacity: 0 }}
@@ -121,7 +127,11 @@ export function Nav() {
                   >
                     <NavLink
                       to={to}
-                      className="block font-serif text-[clamp(3rem,9vw,6rem)] font-light italic leading-none tracking-[-0.02em]"
+                      className={({ isActive }) =>
+                        `block font-serif text-[clamp(3rem,9vw,6rem)] font-light italic leading-none tracking-[-0.02em] transition-colors duration-300 ${
+                          isActive ? 'text-accent' : 'text-ink'
+                        }`
+                      }
                     >
                       {label}
                     </NavLink>

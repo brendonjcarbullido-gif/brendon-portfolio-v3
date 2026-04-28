@@ -4,6 +4,7 @@ import { projects } from '@/data/projects'
 import { resume } from '@/data/resume'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 
 /**
  * HeroMosaic — editorial hero with:
@@ -59,6 +60,8 @@ export function HeroMosaic() {
   })
 
   const [activeTile, setActiveTile] = useState<HeroTile | null>(null)
+  const lightboxRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(lightboxRef, !!activeTile)
 
   useEffect(() => {
     if (!activeTile) return
@@ -158,7 +161,16 @@ export function HeroMosaic() {
                     delay: 0.5 + i * 0.14,
                   }}
                   style={{ cursor: 'pointer', y: prefersReduced ? 0 : desktopY[i] }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View ${project.title}`}
                   onClick={() => setActiveTile(tile)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setActiveTile(tile)
+                    }
+                  }}
                 >
                   <TileMedia project={project} eager={i === 0} />
                   <figcaption className="absolute bottom-2 left-2 font-mono text-[9px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
@@ -184,7 +196,16 @@ export function HeroMosaic() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1], delay: 0.5 }}
                   style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[0] }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View ${project.title}`}
                   onClick={() => setActiveTile(tile)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setActiveTile(tile)
+                    }
+                  }}
                 >
                   <TileMedia project={project} eager />
                   <figcaption className="absolute bottom-2 left-2 font-mono text-[8px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
@@ -206,7 +227,16 @@ export function HeroMosaic() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 1.0, ease: [0.19, 1, 0.22, 1], delay: 0.62 + i * 0.08 }}
                     style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[i + 1] }}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`View ${project.title}`}
                     onClick={() => setActiveTile(tile)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setActiveTile(tile)
+                      }
+                    }}
                   >
                     <TileMedia project={project} />
                     <figcaption className="absolute bottom-1 left-1 font-mono text-[7px] uppercase tracking-[0.12em] text-cream mix-blend-difference">
@@ -223,7 +253,11 @@ export function HeroMosaic() {
       <AnimatePresence>
         {activeTile && (
           <motion.div
+            ref={lightboxRef}
             key="lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Project preview"
             className="fixed inset-0 z-[70] flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
