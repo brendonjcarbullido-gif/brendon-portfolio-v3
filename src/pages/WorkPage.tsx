@@ -1,9 +1,20 @@
 import { motion } from 'framer-motion'
 import { WorkGrid } from '@/sections/WorkGrid'
+import { WorkDeck } from '@/sections/mobile/WorkDeck'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { resume } from '@/data/resume'
 
 export function WorkPage() {
+  const isMobile = useMediaQuery('(max-width: 640px)')
   const clientLine = resume.clients.join(' · ')
+
+  if (isMobile) {
+    return (
+      <main>
+        <WorkDeck />
+      </main>
+    )
+  }
 
   return (
     <main className="relative min-h-screen bg-cream text-ink">

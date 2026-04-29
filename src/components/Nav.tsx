@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ScrollProgress } from '@/components/motion/ScrollProgress'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 const links = [
   { to: '/work', label: 'Work' },
@@ -17,6 +18,8 @@ export function Nav() {
   const { pathname } = useLocation()
   const menuRef = useRef<HTMLDivElement>(null)
   useFocusTrap(menuRef, open)
+  const isMobile = useMediaQuery('(max-width: 640px)')
+  const isDeckOverlay = isMobile && pathname === '/work'
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 24)
@@ -40,9 +43,12 @@ export function Nav() {
     <>
       <ScrollProgress />
       <motion.header
-        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-500 ${
-          scrolled ? 'bg-cream/85 backdrop-blur-md' : 'bg-transparent'
+        className={`fixed inset-x-0 top-0 z-40 ${
+          isDeckOverlay
+            ? ''
+            : `transition-colors duration-500 ${scrolled ? 'bg-cream/85 backdrop-blur-md' : 'bg-transparent'}`
         }`}
+        style={undefined}
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1], delay: 0.2 }}
@@ -52,7 +58,7 @@ export function Nav() {
             to="/"
             end
             aria-label="Brendon Carbullido — Home"
-            className="flex items-center gap-2 font-serif text-[1rem] font-medium tracking-[0.02em] text-ink sm:gap-3 sm:text-[1.125rem]"
+            className={`flex items-center gap-2 font-serif text-[1rem] font-medium tracking-[0.02em] sm:gap-3 sm:text-[1.125rem] ${isDeckOverlay ? 'text-cream' : 'text-ink'}`}
           >
             <span className="inline-block h-2 w-2 rounded-full bg-accent" aria-hidden />
             <span className="hidden sm:inline">Brendon Carbullido</span>
@@ -97,8 +103,8 @@ export function Nav() {
             onClick={() => setOpen((o) => !o)}
           >
             <span className="flex h-8 w-8 flex-col items-center justify-center gap-1.5">
-              <span className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3px] rotate-45' : ''}`} />
-              <span className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3px] -rotate-45' : ''}`} />
+              <span className={`block h-px w-6 transition-transform duration-300 ${isDeckOverlay ? 'bg-cream' : 'bg-ink'} ${open ? 'translate-y-[3px] rotate-45' : ''}`} />
+              <span className={`block h-px w-6 transition-transform duration-300 ${isDeckOverlay ? 'bg-cream' : 'bg-ink'} ${open ? '-translate-y-[3px] -rotate-45' : ''}`} />
             </span>
           </button>
         </div>

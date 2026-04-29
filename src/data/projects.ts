@@ -12,6 +12,7 @@ export interface Project {
   video?: string        // 480p preview — used by cards, mosaic, rail
   previewVideo?: string // explicit 480p reference
   fullVideo?: string    // full-res — used by case study hero and lightbox
+  tint?: string         // chromatic band color for mobile deck
   caseStudy: {
     headline: string
     overview: string
@@ -35,6 +36,7 @@ export const projects: Project[] = [
     previewVideo: preview('anne-klein-hero.mp4'),
     fullVideo: video('anne-klein-hero.mp4'),
     image: '/images/work/anne-klein.webp',
+    tint: '#AD5E23',
     caseStudy: {
       headline: 'Directing Power. Defining a Season.',
       overview:
@@ -71,6 +73,7 @@ export const projects: Project[] = [
     previewVideo: preview('lotto-us-3.mp4'),
     fullVideo: video('lotto-us-3.mp4'),
     image: '/images/work/lotto-us-3.webp',
+    tint: '#374151',
     caseStudy: {
       headline: 'Launching a Legend. Building a Market.',
       overview:
@@ -106,6 +109,7 @@ export const projects: Project[] = [
     previewVideo: preview('teeccino-matcha-hero.mp4'),
     fullVideo: video('teeccino-matcha-hero.mp4'),
     image: '/images/work/teeccino-packaging.webp',
+    tint: '#E6DECF',
     caseStudy: {
       headline: 'One Person. Every Frame.',
       overview:
@@ -144,6 +148,7 @@ export const projects: Project[] = [
     previewVideo: preview('teeccino-packaging.mp4'),
     fullVideo: video('teeccino-packaging.mp4'),
     image: '/images/work/teeccino-social.webp',
+    tint: '#6F4E37',
     caseStudy: {
       headline: '45K Followers. 40% More Engagement.',
       overview:
@@ -179,6 +184,7 @@ export const projects: Project[] = [
     previewVideo: preview('joseph-abboud-correct.mp4'),
     fullVideo: video('joseph-abboud-correct.mp4'),
     image: '/images/work/joseph-abboud.webp',
+    tint: '#000053',
     caseStudy: {
       headline: 'The Craft of a Season.',
       overview:
@@ -211,6 +217,7 @@ export const projects: Project[] = [
     year: 2023,
     mediaType: 'image',
     image: '/images/work/casa-amour.webp',
+    tint: '#B8860B',
     caseStudy: {
       headline: 'Spirit. Identity. Presence.',
       overview:
@@ -240,6 +247,7 @@ export const projects: Project[] = [
     previewVideo: preview('design-craft-1.mp4'),
     fullVideo: video('design-craft-1.mp4'),
     image: '/images/work/design-craft.webp',
+    tint: '#4B5320',
     caseStudy: {
       headline: 'Range. Versatility. Ownership.',
       overview:
@@ -281,6 +289,7 @@ export const projects: Project[] = [
     previewVideo: preview('swau-reel.mp4'),
     fullVideo: video('swau-reel.mp4'),
     image: '/images/work/swau-1.webp',
+    tint: '#87CEEB',
     caseStudy: {
       headline: 'Collectibles. Culture. Content.',
       overview:
