@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { projects } from '@/data/projects'
 import { resume } from '@/data/resume'
 import { RoleRotator } from '@/components/motion/RoleRotator'
 import { Scramble } from '@/components/motion/Scramble'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
+import { useOrientation } from '@/contexts/OrientationContext'
 
 /**
  * HeroMosaic — editorial hero with:
@@ -16,11 +17,11 @@ import { useFocusTrap } from '@/hooks/useFocusTrap'
  */
 
 const TILE_SPECS = [
-  { slug: 'teeccino-packaging', className: 'col-span-7 row-span-3', parallaxDesk: -100, parallaxMob: -32, kb: 'kb-a' },
-  { slug: 'anne-klein', className: 'col-span-5 row-span-2 col-start-8', parallaxDesk: 60, parallaxMob: 20, kb: 'kb-b' },
-  { slug: 'joseph-abboud', className: 'col-span-4 row-span-2 col-start-1 row-start-4', parallaxDesk: 120, parallaxMob: 40, kb: 'kb-c' },
-  { slug: 'lotto-us', className: 'col-span-5 row-span-2 col-start-5 row-start-4', parallaxDesk: -60, parallaxMob: -20, kb: 'kb-d' },
-  { slug: 'casa-amour', className: 'col-span-3 row-span-2 col-start-10 row-start-4', parallaxDesk: 40, parallaxMob: 15, kb: 'kb-e' },
+  { slug: 'teeccino-packaging', className: 'col-span-7 row-span-3', parallaxDesk: -100, parallaxMob: -32, kb: 'kb-a', depthGyro: 8 },
+  { slug: 'anne-klein', className: 'col-span-5 row-span-2 col-start-8', parallaxDesk: 60, parallaxMob: 20, kb: 'kb-b', depthGyro: 6 },
+  { slug: 'joseph-abboud', className: 'col-span-4 row-span-2 col-start-1 row-start-4', parallaxDesk: 120, parallaxMob: 40, kb: 'kb-c', depthGyro: 4 },
+  { slug: 'lotto-us', className: 'col-span-5 row-span-2 col-start-5 row-start-4', parallaxDesk: -60, parallaxMob: -20, kb: 'kb-d', depthGyro: 5 },
+  { slug: 'casa-amour', className: 'col-span-3 row-span-2 col-start-10 row-start-4', parallaxDesk: 40, parallaxMob: 15, kb: 'kb-e', depthGyro: 3 },
 ] as const
 
 const ROLES = ['Art Director', 'Creative Director', 'Brand Strategist'] as const
@@ -51,8 +52,27 @@ export function HeroMosaic() {
   const my1 = useTransform(scrollYProgress, [0, 1], [0, TILE_SPECS[1].parallaxMob])
   const my2 = useTransform(scrollYProgress, [0, 1], [0, TILE_SPECS[2].parallaxMob])
   const my3 = useTransform(scrollYProgress, [0, 1], [0, TILE_SPECS[3].parallaxMob])
+  const my4 = useTransform(scrollYProgress, [0, 1], [0, TILE_SPECS[4].parallaxMob])
   const desktopY = [dy0, dy1, dy2, dy3, dy4]
-  const mobileY = [my0, my1, my2, my3]
+  const mobileY = [my0, my1, my2, my3, my4]
+
+  // Gyroscopic X-axis depth — mobile only, behind the Experience toggle
+  const [{ enabled, gamma }] = useOrientation()
+  const gammaMv = useMotionValue(0)
+  useEffect(() => { gammaMv.set(gamma) }, [gamma, gammaMv])
+
+  const SPRING = { stiffness: 100, damping: 20 } as const
+  const gx0 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[0].depthGyro, TILE_SPECS[0].depthGyro])
+  const gx1 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[1].depthGyro, TILE_SPECS[1].depthGyro])
+  const gx2 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[2].depthGyro, TILE_SPECS[2].depthGyro])
+  const gx3 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[3].depthGyro, TILE_SPECS[3].depthGyro])
+  const gx4 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[4].depthGyro, TILE_SPECS[4].depthGyro])
+  const gx0Spring = useSpring(gx0, SPRING)
+  const gx1Spring = useSpring(gx1, SPRING)
+  const gx2Spring = useSpring(gx2, SPRING)
+  const gx3Spring = useSpring(gx3, SPRING)
+  const gx4Spring = useSpring(gx4, SPRING)
+  const gyroX = [gx0Spring, gx1Spring, gx2Spring, gx3Spring, gx4Spring]
 
   const heroTiles: HeroTile[] = TILE_SPECS.map((spec) => {
     const p = projects.find((pr) => pr.slug === spec.slug) ?? projects[0]
@@ -181,21 +201,27 @@ export function HeroMosaic() {
             })}
           </div>
 
-          {/* Mobile: featured tile + 3-thumbnail strip */}
-          <div className="flex flex-col gap-2 md:hidden">
-            {/* Featured full-width tile */}
-            {(() => {
-              const tile = heroTiles[0]
+          {/* Mobile: 5-tile vertical stagger */}
+          <div className="flex flex-col gap-3 md:hidden">
+            {(
+              [
+                { tile: heroTiles[0], width: '80%', align: 'self-start', aspect: 'aspect-[4/5]' },
+                { tile: heroTiles[1], width: '75%', align: 'self-end',   aspect: 'aspect-[1/1]' },
+                { tile: heroTiles[2], width: '70%', align: 'self-start', aspect: 'aspect-[5/4]' },
+                { tile: heroTiles[3], width: '85%', align: 'self-end',   aspect: 'aspect-[3/4]' },
+                { tile: heroTiles[4], width: '55%', align: 'self-start', aspect: 'aspect-[1/1]' },
+              ] as { tile: HeroTile; width: string; align: string; aspect: string }[]
+            ).map(({ tile, width, align, aspect }, i) => {
               const project = tile.project
               return (
                 <motion.figure
-                  key={`mob-featured-${tile.slug}`}
+                  key={`mob-stagger-${tile.slug}`}
                   data-cursor={activeTile ? undefined : 'View'}
-                  className={`relative aspect-[4/3] w-full overflow-hidden bg-cream-2 ${tile.kb}`}
+                  className={`relative overflow-hidden bg-cream-2 ${tile.kb} ${align} ${aspect}`}
                   initial={{ opacity: 0, y: 32, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1], delay: 0.5 }}
-                  style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[0] }}
+                  transition={{ duration: 1.0, ease: [0.19, 1, 0.22, 1], delay: 0.5 + i * 0.1 }}
+                  style={{ width, cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[i], x: prefersReduced ? 0 : (enabled ? gyroX[i] : 0) }}
                   tabIndex={0}
                   role="button"
                   aria-label={`View ${project.title}`}
@@ -207,45 +233,13 @@ export function HeroMosaic() {
                     }
                   }}
                 >
-                  <TileMedia project={project} eager />
+                  <TileMedia project={project} eager={i === 0} />
                   <figcaption className="absolute bottom-2 left-2 font-mono text-[8px] uppercase tracking-[0.16em] text-cream mix-blend-difference">
-                    <Scramble text={`01 · ${project.client.toUpperCase()}`} durationMs={1100} />
+                    <Scramble text={`${String(i + 1).padStart(2, '0')} · ${project.client.toUpperCase()}`} durationMs={1100} />
                   </figcaption>
                 </motion.figure>
               )
-            })()}
-            {/* 3-tile thumbnail strip */}
-            <div className="grid grid-cols-3 gap-1.5">
-              {heroTiles.slice(1, 4).map((tile, i) => {
-                const project = tile.project
-                return (
-                  <motion.figure
-                    key={`mob-strip-${tile.slug}`}
-                    data-cursor={activeTile ? undefined : 'View'}
-                    className={`relative aspect-square overflow-hidden bg-cream-2 ${tile.kb}`}
-                    initial={{ opacity: 0, y: 24, scale: 0.97 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 1.0, ease: [0.19, 1, 0.22, 1], delay: 0.62 + i * 0.08 }}
-                    style={{ cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[i + 1] }}
-                    tabIndex={0}
-                    role="button"
-                    aria-label={`View ${project.title}`}
-                    onClick={() => setActiveTile(tile)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        setActiveTile(tile)
-                      }
-                    }}
-                  >
-                    <TileMedia project={project} />
-                    <figcaption className="absolute bottom-1 left-1 font-mono text-[7px] uppercase tracking-[0.12em] text-cream mix-blend-difference">
-                      {String(i + 2).padStart(2, '0')}
-                    </figcaption>
-                  </motion.figure>
-                )
-              })}
-            </div>
+            })}
           </div>
         </div>
       </div>
