@@ -29,6 +29,7 @@ export const WorkDeckPanel = forwardRef<HTMLElement, Props>(
           <video
             ref={videoRef}
             className="absolute inset-0 h-full w-full object-cover"
+            src={project.video}
             poster={poster(project.video)}
             muted
             playsInline
