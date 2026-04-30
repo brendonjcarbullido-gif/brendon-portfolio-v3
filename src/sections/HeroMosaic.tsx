@@ -57,11 +57,15 @@ export function HeroMosaic() {
   const mobileY = [my0, my1, my2, my3, my4]
 
   // Gyroscopic X-axis depth — mobile only, behind the Experience toggle
-  const [{ enabled, gamma }] = useOrientation()
+  const [{ enabled, gamma, beta }] = useOrientation()
   const gammaMv = useMotionValue(0)
+  const betaMv  = useMotionValue(0)
   useEffect(() => { gammaMv.set(gamma) }, [gamma, gammaMv])
+  useEffect(() => { betaMv.set(beta)   }, [beta,  betaMv])
 
   const SPRING = { stiffness: 100, damping: 20 } as const
+
+  // X translation — depthGyro px range per tile
   const gx0 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[0].depthGyro, TILE_SPECS[0].depthGyro])
   const gx1 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[1].depthGyro, TILE_SPECS[1].depthGyro])
   const gx2 = useTransform(gammaMv, [-1, 1], [-TILE_SPECS[2].depthGyro, TILE_SPECS[2].depthGyro])
@@ -73,6 +77,51 @@ export function HeroMosaic() {
   const gx3Spring = useSpring(gx3, SPRING)
   const gx4Spring = useSpring(gx4, SPRING)
   const gyroX = [gx0Spring, gx1Spring, gx2Spring, gx3Spring, gx4Spring]
+
+  // rotateY — gamma-driven, magnitude = depthGyro * 0.5 deg
+  const ry0 = useTransform(gammaMv, [-1, 1], [-(TILE_SPECS[0].depthGyro * 0.5), TILE_SPECS[0].depthGyro * 0.5])
+  const ry1 = useTransform(gammaMv, [-1, 1], [-(TILE_SPECS[1].depthGyro * 0.5), TILE_SPECS[1].depthGyro * 0.5])
+  const ry2 = useTransform(gammaMv, [-1, 1], [-(TILE_SPECS[2].depthGyro * 0.5), TILE_SPECS[2].depthGyro * 0.5])
+  const ry3 = useTransform(gammaMv, [-1, 1], [-(TILE_SPECS[3].depthGyro * 0.5), TILE_SPECS[3].depthGyro * 0.5])
+  const ry4 = useTransform(gammaMv, [-1, 1], [-(TILE_SPECS[4].depthGyro * 0.5), TILE_SPECS[4].depthGyro * 0.5])
+  const ry0Spring = useSpring(ry0, SPRING)
+  const ry1Spring = useSpring(ry1, SPRING)
+  const ry2Spring = useSpring(ry2, SPRING)
+  const ry3Spring = useSpring(ry3, SPRING)
+  const ry4Spring = useSpring(ry4, SPRING)
+  const gyroRotY = [ry0Spring, ry1Spring, ry2Spring, ry3Spring, ry4Spring]
+
+  // rotateX — beta-driven, magnitude = depthGyro * 0.25 deg
+  const rx0 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[0].depthGyro * 0.25), TILE_SPECS[0].depthGyro * 0.25])
+  const rx1 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[1].depthGyro * 0.25), TILE_SPECS[1].depthGyro * 0.25])
+  const rx2 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[2].depthGyro * 0.25), TILE_SPECS[2].depthGyro * 0.25])
+  const rx3 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[3].depthGyro * 0.25), TILE_SPECS[3].depthGyro * 0.25])
+  const rx4 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[4].depthGyro * 0.25), TILE_SPECS[4].depthGyro * 0.25])
+  const rx0Spring = useSpring(rx0, SPRING)
+  const rx1Spring = useSpring(rx1, SPRING)
+  const rx2Spring = useSpring(rx2, SPRING)
+  const rx3Spring = useSpring(rx3, SPRING)
+  const rx4Spring = useSpring(rx4, SPRING)
+  const gyroRotX = [rx0Spring, rx1Spring, rx2Spring, rx3Spring, rx4Spring]
+
+  // scale — gamma-driven, offset = depthGyro * 0.0025
+  const sc0 = useTransform(gammaMv, [-1, 1], [1 - TILE_SPECS[0].depthGyro * 0.0025, 1 + TILE_SPECS[0].depthGyro * 0.0025])
+  const sc1 = useTransform(gammaMv, [-1, 1], [1 - TILE_SPECS[1].depthGyro * 0.0025, 1 + TILE_SPECS[1].depthGyro * 0.0025])
+  const sc2 = useTransform(gammaMv, [-1, 1], [1 - TILE_SPECS[2].depthGyro * 0.0025, 1 + TILE_SPECS[2].depthGyro * 0.0025])
+  const sc3 = useTransform(gammaMv, [-1, 1], [1 - TILE_SPECS[3].depthGyro * 0.0025, 1 + TILE_SPECS[3].depthGyro * 0.0025])
+  const sc4 = useTransform(gammaMv, [-1, 1], [1 - TILE_SPECS[4].depthGyro * 0.0025, 1 + TILE_SPECS[4].depthGyro * 0.0025])
+  const sc0Spring = useSpring(sc0, SPRING)
+  const sc1Spring = useSpring(sc1, SPRING)
+  const sc2Spring = useSpring(sc2, SPRING)
+  const sc3Spring = useSpring(sc3, SPRING)
+  const sc4Spring = useSpring(sc4, SPRING)
+  const gyroScale = [sc0Spring, sc1Spring, sc2Spring, sc3Spring, sc4Spring]
+
+  // Shadow filter — single string template driven by both axes
+  const shadowFilter = useTransform(
+    [gammaMv, betaMv],
+    ([g, b]: number[]) => `drop-shadow(${g * 8}px ${b * 4}px 16px rgba(0,0,0,0.18))`,
+  )
 
   const heroTiles: HeroTile[] = TILE_SPECS.map((spec) => {
     const p = projects.find((pr) => pr.slug === spec.slug) ?? projects[0]
@@ -202,7 +251,7 @@ export function HeroMosaic() {
           </div>
 
           {/* Mobile: 5-tile vertical stagger */}
-          <div className="flex flex-col gap-3 md:hidden">
+          <div className="flex flex-col gap-3 md:hidden" style={{ perspective: '1200px' }}>
             {(
               [
                 { tile: heroTiles[0], width: '80%', align: 'self-start', aspect: 'aspect-[4/5]' },
@@ -221,7 +270,20 @@ export function HeroMosaic() {
                   initial={{ opacity: 0, y: 32, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 1.0, ease: [0.19, 1, 0.22, 1], delay: 0.5 + i * 0.1 }}
-                  style={{ width, cursor: 'pointer', touchAction: 'manipulation', y: prefersReduced ? 0 : mobileY[i], x: prefersReduced ? 0 : (enabled ? gyroX[i] : 0) }}
+                  style={{
+                    width,
+                    cursor: 'pointer',
+                    touchAction: 'manipulation',
+                    transformOrigin: 'center center',
+                    transformStyle: 'preserve-3d',
+                    transformPerspective: 1200,
+                    y:       prefersReduced ? 0 : mobileY[i],
+                    x:       prefersReduced ? 0 : (enabled ? gyroX[i]    : 0),
+                    rotateY: prefersReduced ? 0 : (enabled ? gyroRotY[i] : 0),
+                    rotateX: prefersReduced ? 0 : (enabled ? gyroRotX[i] : 0),
+                    scale:   prefersReduced ? 1 : (enabled ? gyroScale[i] : 1),
+                    filter:  enabled && !prefersReduced ? shadowFilter : undefined,
+                  }}
                   tabIndex={0}
                   role="button"
                   aria-label={`View ${project.title}`}
