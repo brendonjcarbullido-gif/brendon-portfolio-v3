@@ -91,12 +91,12 @@ export function HeroMosaic() {
   const ry4Spring = useSpring(ry4, SPRING)
   const gyroRotY = [ry0Spring, ry1Spring, ry2Spring, ry3Spring, ry4Spring]
 
-  // rotateX — beta-driven, magnitude = depthGyro * 0.25 deg
-  const rx0 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[0].depthGyro * 0.25), TILE_SPECS[0].depthGyro * 0.25])
-  const rx1 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[1].depthGyro * 0.25), TILE_SPECS[1].depthGyro * 0.25])
-  const rx2 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[2].depthGyro * 0.25), TILE_SPECS[2].depthGyro * 0.25])
-  const rx3 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[3].depthGyro * 0.25), TILE_SPECS[3].depthGyro * 0.25])
-  const rx4 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[4].depthGyro * 0.25), TILE_SPECS[4].depthGyro * 0.25])
+  // rotateX — beta-driven, magnitude = depthGyro * 0.5 deg
+  const rx0 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[0].depthGyro * 0.5), TILE_SPECS[0].depthGyro * 0.5])
+  const rx1 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[1].depthGyro * 0.5), TILE_SPECS[1].depthGyro * 0.5])
+  const rx2 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[2].depthGyro * 0.5), TILE_SPECS[2].depthGyro * 0.5])
+  const rx3 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[3].depthGyro * 0.5), TILE_SPECS[3].depthGyro * 0.5])
+  const rx4 = useTransform(betaMv, [-1, 1], [-(TILE_SPECS[4].depthGyro * 0.5), TILE_SPECS[4].depthGyro * 0.5])
   const rx0Spring = useSpring(rx0, SPRING)
   const rx1Spring = useSpring(rx1, SPRING)
   const rx2Spring = useSpring(rx2, SPRING)
