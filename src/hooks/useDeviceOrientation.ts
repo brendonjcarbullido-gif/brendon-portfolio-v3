@@ -169,7 +169,14 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
     enabledRef.current = true
     startListening()
     setState(prev => ({ ...prev, enabled: true }))
-  }, [setPermission, startListening])
+
+    // Capture next event as the new zero baseline
+    const captureBaseline = () => {
+      recenter()
+      window.removeEventListener('deviceorientation', captureBaseline)
+    }
+    window.addEventListener('deviceorientation', captureBaseline, { once: true })
+  }, [setPermission, startListening, recenter])
 
   // Pause/resume on tab hide — battery optimization
   useEffect(() => {
