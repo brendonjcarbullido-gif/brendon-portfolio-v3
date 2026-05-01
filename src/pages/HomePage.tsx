@@ -7,6 +7,7 @@ import { Expertise } from '@/sections/Expertise'
 import { Contact } from '@/sections/Contact'
 import { OrientationProvider } from '@/contexts/OrientationContext'
 import { ExperienceToggle } from '@/components/ExperienceToggle'
+import { RecenterButton } from '@/components/RecenterButton'
 
 export function HomePage() {
   return (
@@ -21,7 +22,17 @@ export function HomePage() {
           <Expertise />
           <Contact />
         </main>
-        <ExperienceToggle />
+        <div
+          className="fixed z-30 md:hidden flex items-center gap-3"
+          style={{
+            right: '16px',
+            bottom: 'calc(16px + env(safe-area-inset-bottom))',
+            pointerEvents: 'none',
+          }}
+        >
+          <RecenterButton />
+          <ExperienceToggle />
+        </div>
       </>
     </OrientationProvider>
   )

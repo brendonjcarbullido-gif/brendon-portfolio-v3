@@ -1,47 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  motion,
-  useScroll,
-  useAnimationControls,
-  useMotionValueEvent,
-  useReducedMotion,
-} from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useOrientation } from '@/contexts/OrientationContext'
+import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 
 export function ExperienceToggle() {
   const prefersReduced = useReducedMotion()
   const [{ enabled, permission }, { enable, disable }] = useOrientation()
   const [blocked, setBlocked] = useState(false)
-  // Tracks whether the toggle is in the visible (interactive) state.
-  // Only changes at threshold crossings — not on every scroll tick.
-  const [interactive, setInteractive] = useState(true)
 
-  const controls = useAnimationControls()
-  const { scrollY } = useScroll()
-  const visibleRef = useRef(true)
-
-  // Entry animation — fires once on mount, preserves the 1.8s delayed reveal
-  useEffect(() => {
-    controls.start({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.19, 1, 0.22, 1], delay: 1.8 },
-    })
-  }, [controls])
-
-  // Scroll-driven show/hide — animation via controls, no render-cycle overhead
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    const threshold = typeof window !== 'undefined' ? window.innerHeight * 0.9 : 600
-    const shouldBeVisible = latest < threshold
-    if (shouldBeVisible === visibleRef.current) return
-    visibleRef.current = shouldBeVisible
-    setInteractive(shouldBeVisible)
-    controls.start(
-      shouldBeVisible
-        ? { opacity: 1, y: 0,  transition: { duration: 0.3, ease: [0.19, 1, 0.22, 1] } }
-        : { opacity: 0, y: 20, transition: { duration: 0.3, ease: [0.19, 1, 0.22, 1] } },
-    )
-  })
+  const { controls, interactive } = useScrollVisibility()
 
   // Fire "Motion blocked" only when permission transitions TO denied
   const prevPermission = useRef(permission)
@@ -74,13 +41,7 @@ export function ExperienceToggle() {
 
   return (
     <motion.div
-      className="fixed z-30 md:hidden"
-      style={{
-        right: '16px',
-        bottom: 'calc(16px + env(safe-area-inset-bottom))',
-        // Immediately non-interactive once faded out, even mid-transition
-        pointerEvents: interactive ? 'auto' : 'none',
-      }}
+      style={{ pointerEvents: interactive ? 'auto' : 'none' }}
       initial={{ opacity: 0, y: 12 }}
       animate={controls}
     >

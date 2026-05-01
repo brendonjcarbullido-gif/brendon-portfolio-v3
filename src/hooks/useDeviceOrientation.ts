@@ -13,6 +13,7 @@ export type OrientationActions = {
   requestPermission: () => Promise<void>
   enable: () => Promise<void>
   disable: () => void
+  recenter: () => void
 }
 
 const BETA_MAX = 30
@@ -51,6 +52,8 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
   const smoothedGamma = useRef(0)
   const rawBeta = useRef(0)
   const rawGamma = useRef(0)
+  const betaOffset = useRef(0)
+  const gammaOffset = useRef(0)
   const rafId = useRef<number | null>(null)
 
   const setPermission = useCallback((p: Permission) => {
@@ -71,9 +74,9 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
 
   const handleOrientation = useCallback(
     (e: DeviceOrientationEvent) => {
-      rawBeta.current = e.beta ?? 0
+      rawBeta.current = (e.beta ?? 0) - betaOffset.current
       const g = e.gamma ?? 0
-      rawGamma.current = isIOS ? -g : g
+      rawGamma.current = (isIOS ? -g : g) - gammaOffset.current
 
       if (rafId.current === null) {
         rafId.current = requestAnimationFrame(applyFrame)
@@ -96,6 +99,19 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
     window.addEventListener('deviceorientation', handleOrientation)
   }, [handleOrientation])
 
+  const recenter = useCallback(() => {
+    // Capture the current raw (pre-smoothing) values as the new zero baseline.
+    // betaOffset/gammaOffset are subtracted in handleOrientation, so future
+    // events will read as 0 relative to whatever angle the device is at now.
+    betaOffset.current = rawBeta.current + betaOffset.current
+    gammaOffset.current = rawGamma.current + gammaOffset.current
+    // Snap the smoothed accumulator to 0 so the spring settles immediately
+    // rather than drifting back from its last position.
+    smoothedBeta.current = 0
+    smoothedGamma.current = 0
+    setState(prev => ({ ...prev, beta: 0, gamma: 0 }))
+  }, [])
+
   const disable = useCallback(() => {
     enabledRef.current = false
     stopListening()
@@ -103,6 +119,8 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
     smoothedGamma.current = 0
     rawBeta.current = 0
     rawGamma.current = 0
+    betaOffset.current = 0
+    gammaOffset.current = 0
     setState(prev => ({ ...prev, enabled: false, beta: 0, gamma: 0 }))
   }, [stopListening])
 
@@ -173,5 +191,5 @@ export function useDeviceOrientation(): [OrientationState, OrientationActions] {
     return () => stopListening()
   }, [stopListening])
 
-  return [state, { requestPermission, enable, disable }]
+  return [state, { requestPermission, enable, disable, recenter }]
 }
