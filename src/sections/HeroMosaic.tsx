@@ -21,7 +21,7 @@ const TILE_SPECS = [
   { slug: 'anne-klein', className: 'col-span-5 row-span-2 col-start-8', parallaxDesk: 60, parallaxMob: 20, kb: 'kb-b', depthGyro: 6 },
   { slug: 'joseph-abboud', className: 'col-span-4 row-span-2 col-start-1 row-start-4', parallaxDesk: 120, parallaxMob: 40, kb: 'kb-c', depthGyro: 4 },
   { slug: 'lotto-us', className: 'col-span-5 row-span-2 col-start-5 row-start-4', parallaxDesk: -60, parallaxMob: -20, kb: 'kb-d', depthGyro: 5 },
-  { slug: 'casa-amour', className: 'col-span-3 row-span-2 col-start-10 row-start-4', parallaxDesk: 40, parallaxMob: 15, kb: 'kb-e', depthGyro: 3 },
+  { slug: 'teeccino-social', className: 'col-span-3 row-span-2 col-start-10 row-start-4', parallaxDesk: 40, parallaxMob: 15, kb: 'kb-e', depthGyro: 3 },
 ] as const
 
 const ROLES = ['Art Director', 'Creative Director', 'Brand Strategist'] as const
