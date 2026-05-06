@@ -1,4 +1,4 @@
-import { video, preview } from '@/lib/media'
+import { video, preview, image } from '@/lib/media'
 
 export interface Project {
   id: string
@@ -128,13 +128,13 @@ export const projects: Project[] = [
       color: '#3d2b1a',
       images: [
         video('matcha.mp4'),
-        '/images/work/teeccino-packaging-still-2.webp',
+        image('work/teeccino-packaging-still-2.webp'),
         '/images/work/teeccino-dsc-1.webp',
         '/images/work/teeccino-dsc-2.webp',
-        '/images/work/teeccino-packaging-still-3.webp',
+        image('work/teeccino-packaging-still-3.webp'),
         '/images/work/teeccino-dsc-3.webp',
         '/images/work/teeccino-gallery-2.webp',
-        '/images/work/teeccino-packaging-still-4.webp',
+        image('work/teeccino-packaging-still-4.webp'),
         video('teeccino-1.mp4'),
       ],
     },
@@ -171,9 +171,8 @@ export const projects: Project[] = [
         video('teeccino-social-ep0.mp4'),
         video('teeccino-social-ep2.mp4'),
         video('teeccino-social-5.mp4'),
-        '/images/work/teeccino-social-still-2.webp',
-        video('teeccino-social-3.mp4'),
-        '/images/work/teeccino-social-still-3.webp',
+        image('work/teeccino-social-still-2.webp'),
+        image('work/teeccino-social-still-3.webp'),
         video('teeccino-social-4.mp4'),
       ],
     },
